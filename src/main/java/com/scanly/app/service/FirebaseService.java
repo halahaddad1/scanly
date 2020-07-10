@@ -1,31 +1,31 @@
-package com.scanly.app.User;
+package com.scanly.app.service;
 
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
-
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.DocumentReference;
+import com.scanly.app.User.User;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutionException;
 
 @Service
-public class UserService {
+public class FirebaseService {
 
-    public static final String COL_NAME="users";
 
     public String saveUserDetails(User user) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(COL_NAME).document(user.getName()).set(user);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("users").document(user.getName()).set(user);
         return collectionsApiFuture.get().getUpdateTime().toString();
+
     }
 
     public User getUserDetails(String name) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        DocumentReference documentReference = dbFirestore.collection(COL_NAME).document(name);
+        DocumentReference documentReference = dbFirestore.collection("users").document(name);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
 
         DocumentSnapshot document = future.get();
@@ -40,15 +40,15 @@ public class UserService {
         }
     }
 
-    public String updateUserDetails(User person) throws InterruptedException, ExecutionException {
+    public String updateUserDetails(User user) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(COL_NAME).document(person.getName()).set(person);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("users").document(user.getName()).set(user);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
-    public String deletePatient(String name) {
+    public String deleteUser(String name) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> writeResult = dbFirestore.collection(COL_NAME).document(name).delete();
-        return "Document with Patient ID "+name+" has been deleted";
+        ApiFuture<WriteResult> writeResult = dbFirestore.collection("users").document(name).delete();
+        return "Document with ID "+name+" has been deleted";
     }
 }

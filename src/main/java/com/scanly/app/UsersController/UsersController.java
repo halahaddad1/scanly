@@ -14,12 +14,12 @@ public class UsersController {
         @Autowired
         FirebaseService firebaseService;
     @GetMapping("/getUserDetails")
-    public User getUser(@RequestParam String name ) throws InterruptedException, ExecutionException{
+    public User getUser(@RequestParam (required = false) String name) throws InterruptedException, ExecutionException{
         return firebaseService.getUserDetails(name);
     }
 
         @PostMapping("/createUser")
-        public String createUser(@RequestBody User user ) throws InterruptedException, ExecutionException {
+        public String createUser(@RequestBody User user) throws InterruptedException, ExecutionException {
             return firebaseService.saveUserDetails(user);
         }
 

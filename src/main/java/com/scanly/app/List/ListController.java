@@ -1,11 +1,8 @@
 package com.scanly.app.List;
 
-import com.scanly.app.Receipt.Receipt;
-import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -13,8 +10,9 @@ public class ListController {
 
     @Autowired
     FirebaseService firebaseService;
+
     @GetMapping("/getListDetails")
-    public User getList(@RequestParam(required = false) String name) throws InterruptedException, ExecutionException {
+    public List getList(@RequestParam String name) throws InterruptedException, ExecutionException {
         return firebaseService.getListDetails(name);
     }
 

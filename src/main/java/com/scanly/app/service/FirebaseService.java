@@ -2,22 +2,42 @@ package com.scanly.app.service;
 
 
 import com.google.api.core.ApiFuture;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.DocumentReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.scanly.app.List.List;
 import com.scanly.app.Product.Product;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.User.User;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 @Service
 public class FirebaseService {
+    FirebaseDatabase db;
 
+    public FirebaseService() throws IOException {
+
+        db = FirebaseDatabase.getInstance();
+    }
+
+    public FirebaseDatabase getDb() {
+        return db;
+    }
 
     public String saveUserDetails(User user) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -151,7 +171,7 @@ public class FirebaseService {
         }
     }
 
-    public String updateProductDetails(Product list) throws InterruptedException, ExecutionException {
+    public String updateProductDetails(Product product) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("products").document(product.getName()).set(product);
         return collectionsApiFuture.get().getUpdateTime().toString();

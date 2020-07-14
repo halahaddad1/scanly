@@ -1,5 +1,7 @@
 package com.scanly.app.UsersController;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +11,16 @@ import java.util.concurrent.ExecutionException;
 @RestController
 public class UsersController {
 
-
-
         @Autowired
         FirebaseService firebaseService;
     @GetMapping("/getUserDetails")
     public User getUser(@RequestParam (required = false) String name) throws InterruptedException, ExecutionException{
         return firebaseService.getUserDetails(name);
+    }
+
+    @GetMapping("/Users")
+    public ApiFuture<DocumentSnapshot> retrieveAllUsers() {
+        return firebaseService.findAll();
     }
 
         @PostMapping("/createUser")

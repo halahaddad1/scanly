@@ -11,7 +11,6 @@ public class ListController {
     @Autowired
     FirebaseService firebaseService;
 
-
     @GetMapping("/getListDetails")
     public List getList(@RequestParam String name) throws InterruptedException, ExecutionException {
         return firebaseService.getListDetails(name);
@@ -29,6 +28,7 @@ public class ListController {
 
     @DeleteMapping("/deleteList")
     public String deleteList(@RequestParam String name){
+
         return firebaseService.deleteList(name);
     }
 }

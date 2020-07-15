@@ -46,7 +46,7 @@ public class QuoteOfTheDay {
         HttpHeaders fileheaders = new HttpHeaders();
         fileheaders.setContentDisposition(ContentDisposition.parse("form-data; name=\"image\"; filename=\"IMG_3666.jpg\""));
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.setBearerAuth("5eeae49394cd929e299785c8805bd168fc675280");
+        headers.setBearerAuth("");
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
         FileSystemResource file = new FileSystemResource("IMG_3666.jpg");

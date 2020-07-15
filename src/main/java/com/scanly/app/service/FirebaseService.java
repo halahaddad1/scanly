@@ -35,16 +35,16 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class FirebaseService {
-    FirebaseDatabase db;
+//    FirebaseDatabase db;
+//
+//    public FirebaseService() throws IOException {
+//
+//        db = FirebaseDatabase.getInstance();
+//    }
 
-    public FirebaseService() throws IOException {
-
-        db = FirebaseDatabase.getInstance();
-    }
-
-    public FirebaseDatabase getDb() {
-        return db;
-    }
+//    public FirebaseDatabase getDb() {
+//        return db;
+//    }
 
     public String saveUserDetails(User user) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();

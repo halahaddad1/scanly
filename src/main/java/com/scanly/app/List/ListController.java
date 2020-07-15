@@ -11,6 +11,7 @@ public class ListController {
     @Autowired
     FirebaseService firebaseService;
 
+
     @GetMapping("/getListDetails")
     public List getList(@RequestParam String name) throws InterruptedException, ExecutionException {
         return firebaseService.getListDetails(name);

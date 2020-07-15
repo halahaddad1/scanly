@@ -1,6 +1,7 @@
 package com.scanly.app.service;
 
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
@@ -18,7 +19,13 @@ import com.scanly.app.List.List;
 import com.scanly.app.Product.Product;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.User.User;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,6 +81,31 @@ public class FirebaseService {
         ApiFuture<WriteResult> writeResult = dbFirestore.collection("users").document(name).delete();
         return "Document with ID "+name+" has been deleted";
     }
+
+
+//    public String klippaImage(String path) {
+//
+//        // getting the file from disk
+//        FileSystemResource value = new FileSystemResource(new File(IMG_3666));
+//
+//        // adding headers to the api
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+//        headers.set("X-Auth-Key", "Sr730nTff5FuJL0sHvoNGXFcP2dk0M7X");
+//
+//        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+//        body.add("file", value);
+//
+//
+//        HttpEntity<MultiValueMap<String, Object>> requestEntity= new HttpEntity<>(body, headers);
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//        String result = restTemplate.postForEntity("https://custom-ocr.klippa.com/api/v1/parseDocument", requestEntity,
+//                String.class).getBody().toString();
+//
+//        System.out.println(result);
+//        return result;
+//    }
 
     public String saveReceiptDetails(Receipt receipt) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();

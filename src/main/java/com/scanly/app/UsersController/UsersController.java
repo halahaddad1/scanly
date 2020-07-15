@@ -18,10 +18,10 @@ public class UsersController {
         return firebaseService.getUserDetails(name);
     }
 
-    @GetMapping("/Users")
-    public ApiFuture<DocumentSnapshot> retrieveAllUsers() {
-        return firebaseService.findAll();
-    }
+//    @GetMapping("/Users")
+//    public ApiFuture<DocumentSnapshot> retrieveAllUsers() {
+//        return firebaseService.findAll();
+//    }
 
         @PostMapping("/createUser")
         public String createUser(@RequestBody User user) throws InterruptedException, ExecutionException {

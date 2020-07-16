@@ -83,7 +83,7 @@ public class QuoteOfTheDay {
         HttpHeaders fileheaders = new HttpHeaders();
         fileheaders.setContentDisposition(ContentDisposition.parse("form-data; name=\"document\"; filename=\"scan.jpg\""));
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.set("X-Auth-Key" , "");
+        headers.set("X-Auth-Key" , "Sr730nTff5FuJL0sHvoNGXFcP2dk0M7X");
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
 //        FileSystemResource file = new FileSystemResource("IMG_3666.jpg");

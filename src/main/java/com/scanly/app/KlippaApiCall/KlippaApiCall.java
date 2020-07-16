@@ -1,17 +1,28 @@
 package com.scanly.app.KlippaApiCall;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.scanly.app.Receipt.Receipt;
+import com.scanly.app.User.User;
+import com.scanly.app.service.FirebaseService;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 public class KlippaApiCall {
 
@@ -77,13 +88,13 @@ public class KlippaApiCall {
 
     }
 
-    public void klippaMultiPartPostRequest(byte[] arr) throws IOException {
+    public void klippaMultiPartPostRequest(byte[] arr, User user) throws IOException, ExecutionException, InterruptedException, ParseException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         HttpHeaders fileheaders = new HttpHeaders();
         fileheaders.setContentDisposition(ContentDisposition.parse("form-data; name=\"document\"; filename=\"scan.jpg\""));
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.set("X-Auth-Key" , "");
+        headers.set("X-Auth-Key" , KLIPPA_AUTH);
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
 //        FileSystemResource file = new FileSystemResource("IMG_3666.jpg");
@@ -100,8 +111,12 @@ public class KlippaApiCall {
 
 //        System.out.println(response.getBody());
 
-        ObjectMapper mapper = new ObjectMapper();
+
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        Receipt receipt = mapper.readValue(response.getBody(), Receipt.class);
         JsonNode root = mapper.readTree(response.getBody());
+
+
 
 //        toPrettyString() -> prints like text
 //        toString() -> returns JSON string
@@ -109,19 +124,54 @@ public class KlippaApiCall {
 
         JsonNode name = root.path("data").path("date");
         String prettyStringName = name.toPrettyString();
-        JsonNode createdOn = root.path("data").path("purchasedate");
-        String prettyStringCreatedOn = createdOn.toPrettyString();
+        String createdOn = root.path("data").path("purchasedate").asText();
+//        String prettyStringCreatedOn = createdOn.toPrettyString();
         JsonNode products = root.path("data").path("lines").get(0).path("lineitems");
         System.out.println("this is the root: " + response.getBody());
 
+//        SimpleDateFormat formatter1=new SimpleDateFormat("yyyy-MM-dd");
+//        Date date=formatter1.parse(createdOn.asText());
+//
+//
+//        DateFormat outputFormat = new SimpleDateFormat("MM/yyyy", Locale.US);
+//        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.US);
+//
+//        String inputText = "2012-11-17T00:00:00.000-05:00";
+//        Date date = inputFormat.parse(inputText);
+//        String outputText = outputFormat.format(date);
+
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        Date currentDate= sdf.parse(createdOn);
+
+        SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdfOut = new SimpleDateFormat("yyyy-MM-dd");
+        Date receiptDate = sdfIn.parse(createdOn);
+
+
+        Receipt userReceipt = new Receipt(name.asText(),receiptDate);
+        user.addReceiptObject(userReceipt);
+
+        FirebaseService service = new FirebaseService();
+        service.updateUserDetails(user);
+
+
+        for (JsonNode product : products) {
+            JsonNode title = product.path("title");
+            String prettyStringTitle = title.asText();
+            receipt.addProducts(prettyStringTitle);
+        }
+
+
+
         System.out.println("this is the response status code : " + response.getStatusCode());
         System.out.println("this is the name: " + name.asText());
-        System.out.println("this is the date: " + prettyStringCreatedOn);
+//        System.out.println("this is the date: " + prettyStringCreatedOn);
 
         for (JsonNode product : products) {
             JsonNode title = product.path("title");
             String prettyStringTitle = title.toPrettyString();
             System.out.println("this is the item: " + prettyStringTitle);
         }
+
     }
 }

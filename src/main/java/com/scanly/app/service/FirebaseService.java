@@ -1,50 +1,22 @@
 package com.scanly.app.service;
 
 
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.core.ApiFuture;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.scanly.app.List.List;
+//import com.scanly.app.List.List;
+//import java.util.List;
 import com.scanly.app.Product.Product;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.User.User;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
 public class FirebaseService {
-//    FirebaseDatabase db;
-//
-//    public FirebaseService() throws IOException {
-//
-//        db = FirebaseDatabase.getInstance();
-//    }
-
-//    public FirebaseDatabase getDb() {
-//        return db;
-//    }
 
     public String saveUserDetails(User user) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -81,6 +53,24 @@ public class FirebaseService {
         ApiFuture<WriteResult> writeResult = dbFirestore.collection("users").document(name).delete();
         return "Document with ID "+name+" has been deleted";
     }
+
+    public List<User> findAllUsers() throws Exception {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = dbFirestore.collection("users").get();
+// future.get() blocks on response
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+//        for (QueryDocumentSnapshot document : documents) {
+//            System.out.println(document.getId() + " => " + document.toObject(User.class));
+//            /* Specify the size of the list up front to prevent resizing. */
+//        }
+            List<User> userList = new ArrayList<>(documents.size());
+            for (QueryDocumentSnapshot document : documents) {
+                userList.add(document.toObject(User.class));
+            }
+        return userList;
+    }
+
+
 
 
 //    public String klippaImage(String path) {

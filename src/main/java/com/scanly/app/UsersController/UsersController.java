@@ -1,11 +1,12 @@
 package com.scanly.app.UsersController;
 
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -18,15 +19,15 @@ public class UsersController {
         return firebaseService.getUserDetails(name);
     }
 
-//    @GetMapping("/Users")
-//    public ApiFuture<DocumentSnapshot> retrieveAllUsers() {
-//        return firebaseService.findAll();
-//    }
+    @GetMapping("/allUsers")
+    public List<User> findAllUsers() throws Exception {
+        return firebaseService.findAllUsers();
+    }
 
-        @PostMapping("/createUser")
-        public String createUser(@RequestBody User user) throws InterruptedException, ExecutionException {
-            return firebaseService.saveUserDetails(user);
-        }
+    @PostMapping("/createUser")
+    public String createUser(@RequestBody User user) throws InterruptedException, ExecutionException {
+        return firebaseService.saveUserDetails(user);
+    }
 
     @PutMapping("/updateUser")
     public String updateUser(@RequestBody User user  ) throws InterruptedException, ExecutionException {

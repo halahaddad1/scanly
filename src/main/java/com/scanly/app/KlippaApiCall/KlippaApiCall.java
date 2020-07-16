@@ -101,9 +101,11 @@ public class KlippaApiCall {
         System.out.println(response.getBody());
 //
 //
-//        ObjectMapper mapper = new ObjectMapper();
-//        JsonNode root = mapper.readTree(response.getBody());
-//        JsonNode contents = root.path("contents").path("quotes").get(0);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(response.getBody());
+        JsonNode contents = root.path("contents").path("quotes").get(0);
+
+
 //
 //
 //

@@ -1,12 +1,14 @@
 package com.scanly.app.Receipt;
 
 import com.scanly.app.KlippaApiCall.KlippaApiCall;
+import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -16,11 +18,15 @@ public class ReceiptController {
     FirebaseService firebaseService;
 
     @PostMapping("/ocrImage")
-    public void klippaImage(@RequestParam("file") MultipartFile file) throws IOException {
-        KlippaApiCall receipt = new KlippaApiCall();
-        receipt.klippaMultiPartPostRequest(file.getBytes());
-//        return the status code to flutter
+
+    public void klippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
+        KlippaApiCall quote = new KlippaApiCall();
+        FirebaseService service = new FirebaseService();
+        User user = service.getUserDetails(name);
+        quote.klippaMultiPartPostRequest(file.getBytes(), user);
+//            return the status code to flutter
     }
+
     @GetMapping("/getReceiptDetails")
     public Receipt getReceipt(@RequestParam(required = false) String name) throws InterruptedException, ExecutionException {
         return firebaseService.getReceiptDetails(name);

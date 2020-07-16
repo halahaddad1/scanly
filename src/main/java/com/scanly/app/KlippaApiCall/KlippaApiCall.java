@@ -103,9 +103,11 @@ public class KlippaApiCall {
 //
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(response.getBody());
+
         JsonNode name = root.path("date");
         JsonNode createdOn = root.path("purchasedate");
 //        JsonNode products = root.path("lines").get(0).path("lineitems");
+//        JsonNode contents = root.path("contents").path("quotes").get(0);
 
 
 //        System.out.println("this is the root: " + response.getBody());

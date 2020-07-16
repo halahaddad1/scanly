@@ -1,17 +1,17 @@
 package com.scanly.app.User;
 
-import com.scanly.app.List.List;
+import com.scanly.app.ShoppingList.ShoppingList;
 import com.scanly.app.Receipt.Receipt;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 public class User {
 
 
     private Long id;
     private String name;
-    private List shoppingList;
+    private ShoppingList shoppingList;
     private List<Receipt> receipts;
 
     public User(){}
@@ -20,7 +20,7 @@ public class User {
 
         this.name = name;
         this.id = id;
-        this.shoppingList = new List(shoppingList);
+        this.shoppingList = new ShoppingList("shoppingList");
         this.receipts = new ArrayList<Receipt>();
     }
 

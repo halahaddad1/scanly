@@ -25,7 +25,11 @@ public class UsersController {
     }
 
     @PostMapping("/createUser")
+
     public String createUser(@RequestBody User user) throws InterruptedException, ExecutionException {
+        //    query the db for the user name
+        //    if available, return list
+        //    if new
         return firebaseService.saveUserDetails(user);
     }
 

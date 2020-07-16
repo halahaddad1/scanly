@@ -4,7 +4,7 @@ package com.scanly.app.service;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-//import com.scanly.app.List.List;
+import com.scanly.app.ShoppingList.ShoppingList;
 //import java.util.List;
 import com.scanly.app.Product.Product;
 import com.scanly.app.Receipt.Receipt;
@@ -133,33 +133,33 @@ public class FirebaseService {
         return "Document with ID "+name+" has been deleted";
     }
 
-    public String saveListDetails(List list) throws InterruptedException, ExecutionException {
+    public String saveListDetails(ShoppingList shoppingList) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("lists").document(list.getName()).set(list);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("lists").document(shoppingList.getName()).set(shoppingList);
         return collectionsApiFuture.get().getUpdateTime().toString();
 
     }
 
-    public List getListDetails(String name) throws InterruptedException, ExecutionException {
+    public ShoppingList getListDetails(String name) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection("lists").document(name);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
 
         DocumentSnapshot document = future.get();
 
-        List list = null;
+        ShoppingList shoppingList = null;
 
         if(document.exists()) {
-            list = document.toObject(List.class);
-            return list;
+            shoppingList = document.toObject(ShoppingList.class);
+            return shoppingList;
         }else {
             return null;
         }
     }
 
-    public String updateListDetails(List list) throws InterruptedException, ExecutionException {
+    public String updateListDetails(ShoppingList shoppingList) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("lists").document(list.getName()).set(list);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("lists").document(shoppingList.getName()).set(shoppingList);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 

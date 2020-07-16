@@ -66,7 +66,7 @@ public class KlippaApiCall {
 //
 //        ObjectMapper mapper = new ObjectMapper();
 //        JsonNode root = mapper.readTree(response.getBody());
-//        JsonNode contents = root.path("contents").path("quotes").get(0);
+//        JsonNode contents = root.path("contents").path("quotes").get(0).path("quote");
 //
 //
 //
@@ -83,7 +83,7 @@ public class KlippaApiCall {
         HttpHeaders fileheaders = new HttpHeaders();
         fileheaders.setContentDisposition(ContentDisposition.parse("form-data; name=\"document\"; filename=\"scan.jpg\""));
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.set("X-Auth-Key" , "Sr730nTff5FuJL0sHvoNGXFcP2dk0M7X");
+        headers.set("X-Auth-Key" , "");
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
 //        FileSystemResource file = new FileSystemResource("IMG_3666.jpg");
@@ -101,16 +101,21 @@ public class KlippaApiCall {
         System.out.println(response.getBody());
 //
 //
-//        ObjectMapper mapper = new ObjectMapper();
-//        JsonNode root = mapper.readTree(response.getBody());
-//        JsonNode contents = root.path("contents").path("quotes").get(0);
-//
-//
-//
-//        System.out.println("this is the response status code : " + response.getStatusCode());
-//
-//        System.out.println("this is the root: " + response.getBody());
-//        System.out.println("this is the name: " + root.path("contents").path("quotes").get(0).path("quote"));
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(response.getBody());
+        JsonNode name = root.path("date");
+        JsonNode createdOn = root.path("purchasedate");
+//        JsonNode products = root.path("lines").get(0).path("lineitems");
 
+
+//        System.out.println("this is the root: " + response.getBody());
+
+        System.out.println("this is the response status code : " + response.getStatusCode());
+        System.out.println("this is the name: " + name);
+        System.out.println("this is the date: " + createdOn);
+
+//        for (JsonNode product : products) {
+//            System.out.println("this is the date: " + product);
+//        }
     }
 }

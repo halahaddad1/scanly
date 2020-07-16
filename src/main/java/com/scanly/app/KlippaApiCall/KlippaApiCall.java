@@ -1,4 +1,4 @@
-package com.scanly.app.QuoteOfTheDay;
+package com.scanly.app.KlippaApiCall;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.util.Collections;
 
-public class QuoteOfTheDay {
+public class KlippaApiCall {
 
 
     public void request() throws JsonProcessingException, JsonMappingException {

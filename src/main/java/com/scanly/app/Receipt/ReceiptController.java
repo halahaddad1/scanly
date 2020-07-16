@@ -1,6 +1,6 @@
 package com.scanly.app.Receipt;
 
-import com.scanly.app.QuoteOfTheDay.QuoteOfTheDay;
+import com.scanly.app.KlippaApiCall.KlippaApiCall;
 import com.scanly.app.service.FirebaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +17,9 @@ public class ReceiptController {
 
     @PostMapping("/ocrImage")
     public void klippaImage(@RequestParam("file") MultipartFile file) throws IOException {
-        QuoteOfTheDay quote = new QuoteOfTheDay();
+        KlippaApiCall quote = new KlippaApiCall();
         quote.klippaMultiPartPostRequest(file.getBytes());
     }
-
-
     @GetMapping("/getReceiptDetails")
     public Receipt getReceipt(@RequestParam(required = false) String name) throws InterruptedException, ExecutionException {
         return firebaseService.getReceiptDetails(name);

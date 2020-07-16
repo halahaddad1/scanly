@@ -99,26 +99,29 @@ public class KlippaApiCall {
         ResponseEntity<String> response = restTemplate.postForEntity(klippaResourceUrl, entity, String.class);
 
 //        System.out.println(response.getBody());
-//
-//
+
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(response.getBody());
+
+//        toPrettyString() -> prints like text
+//        toString() -> returns JSON string
+//        asText() -> actual String
 
         JsonNode name = root.path("data").path("date");
         String prettyStringName = name.toPrettyString();
         JsonNode createdOn = root.path("data").path("purchasedate");
         String prettyStringCreatedOn = createdOn.toPrettyString();
-//        JsonNode products = root.path("data").path("lines").get(0).path("lineitems");
-
-//        System.out.println("this is the root: " + response.getBody());
+        JsonNode products = root.path("data").path("lines").get(0).path("lineitems");
+        System.out.println("this is the root: " + response.getBody());
 
         System.out.println("this is the response status code : " + response.getStatusCode());
-        System.out.println("this is the name: " + prettyStringName);
+        System.out.println("this is the name: " + name.asText());
         System.out.println("this is the date: " + prettyStringCreatedOn);
 
-//        for (JsonNode product : products) {
-//            String prettyStringProduct = product.toPrettyString();
-//            System.out.println("this is the date: " + prettyStringProduct);
-//        }
+        for (JsonNode product : products) {
+            JsonNode title = product.path("title");
+            String prettyStringTitle = title.toPrettyString();
+            System.out.println("this is the item: " + prettyStringTitle);
+        }
     }
 }

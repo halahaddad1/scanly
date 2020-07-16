@@ -19,31 +19,25 @@ public class ReceiptController {
     public void klippaImage(@RequestParam("file") MultipartFile file) throws IOException {
         KlippaApiCall quote = new KlippaApiCall();
         quote.klippaMultiPartPostRequest(file.getBytes());
-
-        // passing the filepath to the service method
-//        Object ocrDataImage = firebaseService.klippaImage(fileName);
-//        return Response.ResponseBuilder.Build();
-
+    }
+    @GetMapping("/getReceiptDetails")
+    public Receipt getReceipt(@RequestParam(required = false) String name) throws InterruptedException, ExecutionException {
+        return firebaseService.getReceiptDetails(name);
     }
 
-        @GetMapping("/getReceiptDetails")
-        public Receipt getReceipt(@RequestParam(required = false) String name) throws InterruptedException, ExecutionException {
-            return firebaseService.getReceiptDetails(name);
-        }
-
-        @PostMapping("/createReceipt")
-        public String createReceipt(@RequestBody Receipt receipt) throws InterruptedException, ExecutionException {
-            return firebaseService.saveReceiptDetails(receipt);
-        }
-
-        @PutMapping("/updateReceipt")
-        public String updateReceipt(@RequestBody Receipt receipt ) throws InterruptedException, ExecutionException {
-            return firebaseService.updateReceiptDetails(receipt);
-        }
-
-        @DeleteMapping("/deleteReceipt")
-        public String deleteReceipt(@RequestParam String name){
-            return firebaseService.deleteReceipt(name);
-        }
+    @PostMapping("/createReceipt")
+    public String createReceipt(@RequestBody Receipt receipt) throws InterruptedException, ExecutionException {
+        return firebaseService.saveReceiptDetails(receipt);
     }
+
+    @PutMapping("/updateReceipt")
+    public String updateReceipt(@RequestBody Receipt receipt ) throws InterruptedException, ExecutionException {
+        return firebaseService.updateReceiptDetails(receipt);
+    }
+
+    @DeleteMapping("/deleteReceipt")
+    public String deleteReceipt(@RequestParam String name){
+        return firebaseService.deleteReceipt(name);
+    }
+}
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -77,13 +78,17 @@ public class KlippaApiCall {
 
     }
 
+    @Value("${KLIPPA_AUTH}")
+    private String klippaAuth;
+
     public void klippaMultiPartPostRequest(byte[] arr) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         HttpHeaders fileheaders = new HttpHeaders();
         fileheaders.setContentDisposition(ContentDisposition.parse("form-data; name=\"document\"; filename=\"scan.jpg\""));
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.set("X-Auth-Key" , "");
+
+        headers.set("X-Auth-Key" , klippaAuth);
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
 //        FileSystemResource file = new FileSystemResource("IMG_3666.jpg");
@@ -123,5 +128,7 @@ public class KlippaApiCall {
             String prettyStringTitle = title.toPrettyString();
             System.out.println("this is the item: " + prettyStringTitle);
         }
+
+        // return status code  - see if it is String, int or json
     }
 }

@@ -17,8 +17,9 @@ public class ReceiptController {
 
     @PostMapping("/ocrImage")
     public void klippaImage(@RequestParam("file") MultipartFile file) throws IOException {
-        KlippaApiCall quote = new KlippaApiCall();
-        quote.klippaMultiPartPostRequest(file.getBytes());
+        KlippaApiCall receipt = new KlippaApiCall();
+        receipt.klippaMultiPartPostRequest(file.getBytes());
+//        return the status code to flutter
     }
     @GetMapping("/getReceiptDetails")
     public Receipt getReceipt(@RequestParam(required = false) String name) throws InterruptedException, ExecutionException {

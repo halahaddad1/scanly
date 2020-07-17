@@ -1,11 +1,9 @@
 package com.scanly.app.service;
 
-
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.scanly.app.ShoppingList.ShoppingList;
-//import java.util.List;
 import com.scanly.app.Product.Product;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.User.User;

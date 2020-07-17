@@ -30,18 +30,5 @@ public class CanonicalProduct {
     private String name;
     private String nickname;
 
-    public CanonicalProduct(){}
 
-    public CanonicalProduct(String name, String nickname) {
-        this.name = name;
-        this.nickname = nickname;
-    }
-
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public String getName(){
-        return name;
-    }
 }

@@ -18,12 +18,13 @@ public class ReceiptController {
     FirebaseService firebaseService;
 
     @PostMapping("/ocrImage")
+
     public void klippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
         KlippaApiCall quote = new KlippaApiCall();
         FirebaseService service = new FirebaseService();
         User user = service.getUserDetails(name);
-        quote.klippaMultiPartPostRequest(file.getBytes(),user);
-
+        quote.klippaMultiPartPostRequest(file.getBytes(), user);
+//            return the status code to flutter
     }
 
     @GetMapping("/getReceiptDetails")

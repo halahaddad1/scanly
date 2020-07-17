@@ -33,6 +33,11 @@ public class ReceiptController {
 
     @PostMapping("/createReceipt")
     public String createReceipt(@RequestBody Receipt receipt) throws InterruptedException, ExecutionException {
+        receipt.toBuilder()
+                .name(receipt.getName())
+                .createdOn(receipt.getCreatedOn())
+                .products(receipt.getProducts())
+                .build();
         return firebaseService.saveReceiptDetails(receipt);
     }
 

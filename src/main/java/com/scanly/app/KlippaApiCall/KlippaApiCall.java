@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.util.Value;
+import com.scanly.app.Product.Product;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
 
 public class KlippaApiCall {
 
@@ -31,7 +34,7 @@ public class KlippaApiCall {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> entity = new HttpEntity<>("",headers);
+        HttpEntity<String> entity = new HttpEntity<>("", headers);
         String fooResourceUrl = "https://api.imgur.com/3/upload";
         ResponseEntity<String> response = restTemplate.exchange(fooResourceUrl, HttpMethod.GET, entity, String.class);
 
@@ -41,7 +44,6 @@ public class KlippaApiCall {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(response.getBody());
         JsonNode contents = root.path("contents").path("quotes").get(0);
-
 
 
         System.out.println("this is the response status code : " + response.getStatusCode());
@@ -62,12 +64,12 @@ public class KlippaApiCall {
                 = new LinkedMultiValueMap<>();
         FileSystemResource file = new FileSystemResource("IMG_3666.jpg");
 //        body.add("image", file );
-        HttpEntity<byte[]> entitystream = new HttpEntity<>(file.getInputStream().readAllBytes(),fileheaders);
+        HttpEntity<byte[]> entitystream = new HttpEntity<>(file.getInputStream().readAllBytes(), fileheaders);
         body.add("document", entitystream);
-        body.add( "type", "file" );
+        body.add("type", "file");
 
 
-        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<>(body,headers);
+        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<>(body, headers);
 
         String imgurResourceUrl = "https://api.imgur.com/3/upload";
         ResponseEntity<String> response = restTemplate.postForEntity(imgurResourceUrl, entity, String.class);
@@ -88,23 +90,26 @@ public class KlippaApiCall {
 
     }
 
+    @Value("${KLIPPA_AUTH}")
+    private String klippaAuth;
+
     public void klippaMultiPartPostRequest(byte[] arr, User user) throws IOException, ExecutionException, InterruptedException, ParseException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         HttpHeaders fileheaders = new HttpHeaders();
         fileheaders.setContentDisposition(ContentDisposition.parse("form-data; name=\"document\"; filename=\"scan.jpg\""));
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.set("X-Auth-Key" , KLIPPA_AUTH);
+        headers.set("X-Auth-Key", "Sr730nTff5FuJL0sHvoNGXFcP2dk0M7X");
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
 //        FileSystemResource file = new FileSystemResource("IMG_3666.jpg");
 //        body.add("image", file );
-        HttpEntity<byte[]> entitystream = new HttpEntity<>(arr,fileheaders);
+        HttpEntity<byte[]> entitystream = new HttpEntity<>(arr, fileheaders);
         body.add("document", entitystream);
 //        body.add( "type", "file" );
 
 
-        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<>(body,headers);
+        HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<>(body, headers);
 
         String klippaResourceUrl = "https://custom-ocr.klippa.com/api/v1/parseDocument";
         ResponseEntity<String> response = restTemplate.postForEntity(klippaResourceUrl, entity, String.class);
@@ -115,7 +120,6 @@ public class KlippaApiCall {
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Receipt receipt = mapper.readValue(response.getBody(), Receipt.class);
         JsonNode root = mapper.readTree(response.getBody());
-
 
 
 //        toPrettyString() -> prints like text
@@ -140,28 +144,57 @@ public class KlippaApiCall {
 //        Date date = inputFormat.parse(inputText);
 //        String outputText = outputFormat.format(date);
 
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        Date currentDate= sdf.parse(createdOn);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        Date currentDate = sdf.parse(createdOn);
 
         SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdfOut = new SimpleDateFormat("yyyy-MM-dd");
         Date receiptDate = sdfIn.parse(createdOn);
 
 
-        Receipt userReceipt = new Receipt(name.asText(),receiptDate);
+        Receipt userReceipt = new Receipt(name.asText(), receiptDate);
         user.addReceiptObject(userReceipt);
 
         FirebaseService service = new FirebaseService();
         service.updateUserDetails(user);
 
+//        Stream.of(products).map(product -> Product.builder()
+//                                                  .name(product.path("title").asText())
+//                                                  .build())
+//                .forEach(newProduct -> {
+//                    userReceipt.addProductObject(newProduct);
+//                    try {
+//                        service.updateProductDetails(newProduct);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    } catch (ExecutionException e) {
+//                        e.printStackTrace();
+//                    }
+//                    try {
+//                        service.updateReceiptDetails(userReceipt);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    } catch (ExecutionException e) {
+//                        e.printStackTrace();
+//                    }
+//                    try {
+//                        service.updateUserDetails(user);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    } catch (ExecutionException e) {
+//                        e.printStackTrace();
+//                    }
+//                });
 
+//        Stream.of(products).map(Product::toBuilder)
         for (JsonNode product : products) {
-            JsonNode title = product.path("title");
-            String prettyStringTitle = title.asText();
-            receipt.addProducts(prettyStringTitle);
+            String title = product.path("title").asText();
+            Product addProduct = new Product(title);
+            userReceipt.addProductObject(addProduct);
+            service.updateProductDetails(addProduct);
+            service.updateReceiptDetails(userReceipt);
+            service.updateUserDetails(user);
         }
-
-
 
         System.out.println("this is the response status code : " + response.getStatusCode());
         System.out.println("this is the name: " + name.asText());

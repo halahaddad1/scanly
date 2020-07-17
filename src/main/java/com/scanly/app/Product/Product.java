@@ -1,23 +1,17 @@
 package com.scanly.app.Product;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)
 public class Product {
 
-    private Long id;
     private String name;
 
-    public Product(){}
-
-    public Product(String name){
-
-        this.name = name;
-        this.id = id;
-    }
-
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public String getName(){
-        return name;
-    }
 }

@@ -215,6 +215,5 @@ public class KlippaApiCall {
             System.out.println("this is the item: " + prettyStringTitle);
         }
 
-
     }
 }

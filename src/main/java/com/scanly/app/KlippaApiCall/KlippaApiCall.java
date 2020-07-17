@@ -5,7 +5,14 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.util.Value;
+
+import org.springframework.beans.factory.annotation.Value;
+
+import com.scanly.app.Receipt.Receipt;
+import com.scanly.app.User.User;
+import com.scanly.app.service.FirebaseService;
+
+//import com.google.api.client.util.Value;
 import com.scanly.app.Product.Product;
 import com.scanly.app.ShoppingList.ShoppingList;
 import com.scanly.app.Receipt.Receipt;
@@ -103,8 +110,9 @@ public class KlippaApiCall {
         HttpHeaders fileheaders = new HttpHeaders();
         fileheaders.setContentDisposition(ContentDisposition.parse("form-data; name=\"document\"; filename=\"scan.jpg\""));
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        
-        headers.set("X-Auth-Key" , "Sr730nTff5FuJL0sHvoNGXFcP2dk0M7X");
+
+        headers.set("X-Auth-Key" , klippaAuth);
+
 
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();

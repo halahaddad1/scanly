@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.util.Value;
 import com.scanly.app.Product.Product;
-import org.springframework.beans.factory.annotation.Value;
+import com.scanly.app.ShoppingList.ShoppingList;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
@@ -30,6 +30,9 @@ import java.util.stream.Stream;
 
 public class KlippaApiCall {
 
+
+    public KlippaApiCall() {
+    }
 
     public void request() throws JsonProcessingException, JsonMappingException {
         RestTemplate restTemplate = new RestTemplate();
@@ -101,7 +104,7 @@ public class KlippaApiCall {
         fileheaders.setContentDisposition(ContentDisposition.parse("form-data; name=\"document\"; filename=\"scan.jpg\""));
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         
-        headers.set("X-Auth-Key" , klippaAuth);
+        headers.set("X-Auth-Key" , "Sr730nTff5FuJL0sHvoNGXFcP2dk0M7X");
 
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
@@ -188,14 +191,17 @@ public class KlippaApiCall {
 //                        e.printStackTrace();
 //                    }
 //                });
+        ShoppingList shoppingList = user.getShoppingList();
 
 //        Stream.of(products).map(Product::toBuilder)
         for (JsonNode product : products) {
             String title = product.path("title").asText();
             Product addProduct = new Product(title);
             userReceipt.addProductObject(addProduct);
+            shoppingList.addShoppingItems(addProduct);
             service.updateProductDetails(addProduct);
             service.updateReceiptDetails(userReceipt);
+            service.updateListDetails(shoppingList);
             service.updateUserDetails(user);
         }
 

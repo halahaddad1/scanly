@@ -19,9 +19,19 @@ import java.util.List;
 public class User {
 
     private String name;
-    private ShoppingList shoppingList;
+    private ShoppingList shoppingList = new ShoppingList(name+"'s shopping list");
     @Builder.Default
     private List<Receipt> receipts = new ArrayList<Receipt>();
+
+
+    public ShoppingList getShoppingList(){
+        if(this.shoppingList == null){
+            this.shoppingList = new ShoppingList(this.name+"'s shopping list");
+            return this.shoppingList;
+        } else {
+            return this.shoppingList;
+        }
+    }
 
     public void addReceipt(String name, Date createdOn) {
         this.receipts.add(new Receipt(name,createdOn));

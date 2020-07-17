@@ -43,8 +43,6 @@
             <scope>compile</scope>
         </dependency>
 
-
-
         <dependency>
             <groupId>com.cerner.beadledom</groupId>
             <artifactId>beadledom-resteasy-genericresponse</artifactId>

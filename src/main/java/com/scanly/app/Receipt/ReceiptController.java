@@ -26,6 +26,14 @@ public class ReceiptController {
         quote.klippaMultiPartPostRequest(file.getBytes(), user);
 //            return the status code to flutter
     }
+//    @PutMapping("/ocrImage")
+//    public void updateKlippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
+//        KlippaApiCall klippa = new KlippaApiCall();
+//        FirebaseService service = new FirebaseService();
+//        User user = service.getUserDetails(name);
+//        klippa.klippaMultiPartPostRequest(file.getBytes(), user);
+//            return the status code to flutter
+//    }
 
     @GetMapping("/getReceiptDetails")
     public Receipt getReceipt(@RequestParam(required = false) String name) throws InterruptedException, ExecutionException {
@@ -41,6 +49,7 @@ public class ReceiptController {
                 .build();
         return firebaseService.saveReceiptDetails(receipt);
     }
+
 
     @PutMapping("/updateReceipt")
     public String updateReceipt(@RequestBody Receipt receipt ) throws InterruptedException, ExecutionException {

@@ -18,6 +18,9 @@ public class ProductController {
 
     @PostMapping("/createProduct")
     public String createProduct(@RequestBody Product product) throws InterruptedException, ExecutionException {
+        product.toBuilder()
+                .name(product.getName())
+                .build();
         return firebaseService.saveProductDetails(product);
     }
 

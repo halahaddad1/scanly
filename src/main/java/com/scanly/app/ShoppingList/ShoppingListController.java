@@ -18,6 +18,10 @@ public class ShoppingListController {
 
     @PostMapping("/createList")
     public String createList(@RequestBody ShoppingList shoppingList) throws InterruptedException, ExecutionException {
+        shoppingList.toBuilder()
+                .name(shoppingList.getName())
+                .shoppingItems(shoppingList.getShoppingItems())
+                .build();
         return firebaseService.saveListDetails(shoppingList);
     }
 

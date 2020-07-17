@@ -208,7 +208,7 @@ public class FirebaseService {
 
     public String saveCanonicalProductDetails(CanonicalProduct canonicalProduct) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("canonical-product").document(canonicalProduct.getName()).set(canonicalProduct);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("canonical-product").document(canonicalProduct.getSeedName()).set(canonicalProduct);
         return collectionsApiFuture.get().getUpdateTime().toString();
 
     }

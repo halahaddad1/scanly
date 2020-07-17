@@ -21,7 +21,7 @@ public class CanonicalProductController {
         @PostMapping("/createCanonicalProduct")
         public String createCanonicalProduct(@RequestBody CanonicalProduct canonicalProduct) throws InterruptedException, ExecutionException {
             canonicalProduct.toBuilder()
-                    .name(canonicalProduct.getName())
+                    .name(canonicalProduct.getSeedName())
                     .build();
             return firebaseService.saveCanonicalProductDetails(canonicalProduct);
         }

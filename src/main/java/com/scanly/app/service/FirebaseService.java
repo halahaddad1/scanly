@@ -1,7 +1,5 @@
 package com.scanly.app.service;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
@@ -64,14 +62,14 @@ public class FirebaseService {
 //            System.out.println(document.getId() + " => " + document.toObject(User.class));
 //            /* Specify the size of the list up front to prevent resizing. */
 //        }
-            List<User> userList = new ArrayList<>(documents.size());
-            for (QueryDocumentSnapshot document : documents) {
-                userList.add(document.toObject(User.class));
-            }
+        List<User> userList = new ArrayList<>(documents.size());
+        for (QueryDocumentSnapshot document : documents) {
+            userList.add(document.toObject(User.class));
+        }
         return userList;
     }
 
-    public List<String> findShoppingList(String name) throws ExecutionException, InterruptedException {
+    public List<Product> findShoppingList(String name) throws ExecutionException, InterruptedException {
 
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection("users").document(name);
@@ -83,13 +81,7 @@ public class FirebaseService {
 
         if(document.exists()) {
             user = document.toObject(User.class);
-            List productList = user.getShoppingList().getShoppingItems();
-//            return user.getShoppingList().getShoppingItems();
-            List list = new ArrayList<String>();
-            for (Product product : productList) {
-               list.add(product.getName());
-            }
-            return list;
+            return user.getShoppingList().getShoppingItems();
         }else {
             return null;
         }
@@ -259,5 +251,3 @@ public class FirebaseService {
     }
 
 }
-
-

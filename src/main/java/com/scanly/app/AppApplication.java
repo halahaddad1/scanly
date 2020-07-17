@@ -18,24 +18,24 @@ public class AppApplication {
         SpringApplication.run(AppApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner postStartupLauncher() {
-        return args -> {
-            boolean seeded = false;
-            boolean ranCmd = false;
-
-            for (String arg : args) {
-                if (! seeded && arg.equals("-seed")) {
-                    seeded = true;
-                    ranCmd = true;
-                    ParseFullCSV runner = new ParseFullCSV();
-                    runner.parseCSV(firebaseService);
-                }
-            }
-
-            if (ranCmd) {
-                System.exit(0);
-            }
-        };
-    }
+//    @Bean
+//    public CommandLineRunner postStartupLauncher() {
+//        return args -> {
+//            boolean seeded = false;
+//            boolean ranCmd = false;
+//
+//            for (String arg : args) {
+//                if (! seeded && arg.equals("-seed")) {
+//                    seeded = true;
+//                    ranCmd = true;
+//                    ParseFullCSV runner = new ParseFullCSV();
+//                    runner.parseCSV(firebaseService);
+//                }
+//            }
+//
+//            if (ranCmd) {
+//                System.exit(0);
+//            }
+//        };
+//    }
 }

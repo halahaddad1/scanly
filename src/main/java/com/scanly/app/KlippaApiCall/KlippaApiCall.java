@@ -5,13 +5,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-<<<<<<< HEAD
+
 import org.springframework.beans.factory.annotation.Value;
-=======
+
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
->>>>>>> 05a115ecf1f7fb50778ea539387f274b1bd5e6b3
+
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -102,7 +102,7 @@ public class KlippaApiCall {
         HttpHeaders fileheaders = new HttpHeaders();
         fileheaders.setContentDisposition(ContentDisposition.parse("form-data; name=\"document\"; filename=\"scan.jpg\""));
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        
+
         headers.set("X-Auth-Key" , klippaAuth);
 
         MultiValueMap<String, Object> body
@@ -183,9 +183,5 @@ public class KlippaApiCall {
             System.out.println("this is the item: " + prettyStringTitle);
         }
 
-<<<<<<< HEAD
-        // return status code  - see if it is String, int or json
-=======
->>>>>>> 05a115ecf1f7fb50778ea539387f274b1bd5e6b3
     }
 }

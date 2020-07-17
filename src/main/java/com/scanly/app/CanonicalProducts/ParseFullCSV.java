@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
+import com.scanly.app.service.FirebaseService;
 
 public class ParseFullCSV {
     @SuppressWarnings("resource")
@@ -28,6 +29,21 @@ public class ParseFullCSV {
                     i = row.length;
                 }
             }
+
+            FirebaseService service = new FirebaseService();
+
+            for(String[] saveRow : allRows){
+                int i = 1;
+                while( i < saveRow.length ){
+                    String name = saveRow[0];
+                    String nickname = saveRow[i];
+                    if (!nickname.equals("")) {
+                        System.out.println(name + " : " + nickname );
+                        i += 1;
+                    } else {
+                        i = saveRow.length;
+                    }
+                }
 //            String first = row[0];
 //            System.out.println(first + : );
 //            System.out.println(Arrays.toString(row));

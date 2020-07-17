@@ -236,14 +236,14 @@ public class FirebaseService {
 
     public String saveCanonicalProductDetails(CanonicalProduct canonicalProduct) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("canonical-product").document(canonicalProduct.getSeedName()).set(canonicalProduct);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("canonical-products").document(canonicalProduct.getSeedName()).set(canonicalProduct);
         return collectionsApiFuture.get().getUpdateTime().toString();
 
     }
 
-    public CanonicalProduct getCanonicalProductDetails(String nickname) throws InterruptedException, ExecutionException {
+    public CanonicalProduct getCanonicalProductDetails(String seedName) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        DocumentReference documentReference = dbFirestore.collection("canonical-product").document(nickname);
+        DocumentReference documentReference = dbFirestore.collection("canonical-products").document(seedName);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
 
         DocumentSnapshot document = future.get();

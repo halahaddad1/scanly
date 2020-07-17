@@ -1,6 +1,9 @@
 package com.scanly.app.CanonicalProducts;
 import au.com.bytecode.opencsv.CSVReader;
 import com.scanly.app.service.FirebaseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,9 +11,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+@Component
 public class ParseFullCSV {
+    //@Autowired
+    //FirebaseService firebaseService;
+
     @SuppressWarnings("resource")
-    public void parseCSV() throws IOException, ExecutionException, InterruptedException {
+    public void parseCSV(FirebaseService firebaseService) throws IOException, ExecutionException, InterruptedException {
         //Build reader instance
         CSVReader reader = new CSVReader(new FileReader("src/main/resources/ScanlyCanonicalProducstData.csv"), ',', '"', 1);
 
@@ -31,21 +38,26 @@ public class ParseFullCSV {
 //                }
 //            }
 
-            FirebaseService service = new FirebaseService();
+//            FirebaseService service = new FirebaseService();
+
 
             for(String[] saveRow : allRows){
                 int i = 1;
                 while( i < saveRow.length ){
                     String canonicalName = saveRow[0];
+                    if (canonicalName.length() == 0) {
+                        break;
+                    }
                     String seedName = saveRow[i];
                     if (!seedName.equals("")) {
 //                        System.out.println(name + " : " + nickname );
                         CanonicalProduct canonicalProduct = new CanonicalProduct(seedName, canonicalName);
+                        System.out.println(canonicalProduct.getCanonicalName());
                         System.out.println(canonicalProduct.getSeedName());
-                        service.saveCanonicalProductDetails(canonicalProduct);
+                        firebaseService.saveCanonicalProductDetails(canonicalProduct);
                         i += 1;
                     } else {
-                        i = saveRow.length;
+                        break;
                     }
                 }
 

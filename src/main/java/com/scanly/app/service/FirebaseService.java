@@ -4,6 +4,7 @@ package com.scanly.app.service;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
+import com.scanly.app.CanonicalProducts.CanonicalProduct;
 import com.scanly.app.ShoppingList.ShoppingList;
 //import java.util.List;
 import com.scanly.app.Product.Product;
@@ -191,6 +192,8 @@ public class FirebaseService {
         }else {
             return null;
         }
+
+
     }
 
     public String updateProductDetails(Product product) throws InterruptedException, ExecutionException {
@@ -203,6 +206,30 @@ public class FirebaseService {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> writeResult = dbFirestore.collection("products").document(name).delete();
         return "Document with ID "+name+" has been deleted";
+    }
+
+    public String saveCanonicalProductDetails(CanonicalProduct canonicalProduct) throws InterruptedException, ExecutionException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("canonical-product").document(canonicalProduct.getName()).set(canonicalProduct);
+        return collectionsApiFuture.get().getUpdateTime().toString();
+
+    }
+
+    public CanonicalProduct getCanonicalProductDetails(String nickname) throws InterruptedException, ExecutionException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = dbFirestore.collection("canonical-product").document(nickname);
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+
+        DocumentSnapshot document = future.get();
+
+        CanonicalProduct canonicalProduct = null;
+
+        if (document.exists()) {
+            canonicalProduct = document.toObject(CanonicalProduct.class);
+            return canonicalProduct;
+        } else {
+            return null;
+        }
     }
 
 }

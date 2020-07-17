@@ -69,6 +69,26 @@ public class FirebaseService {
         return userList;
     }
 
+    public List<Product> findShoppingList(String name) throws ExecutionException, InterruptedException {
+
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = dbFirestore.collection("users").document(name);
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+
+        DocumentSnapshot document = future.get();
+
+        User user = null;
+
+        if(document.exists()) {
+            user = document.toObject(User.class);
+            return user.getShoppingList().getShoppingItems();
+        }else {
+            return null;
+        }
+    }
+
+
+
 
 
 

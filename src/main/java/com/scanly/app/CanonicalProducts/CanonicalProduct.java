@@ -31,6 +31,4 @@ public class CanonicalProduct {
     private String seedName;
     private String canonicalName;
 
-
-
 }

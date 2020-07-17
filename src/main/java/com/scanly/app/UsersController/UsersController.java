@@ -50,5 +50,10 @@ public class UsersController {
     public String deleteUser(@RequestParam String name){
         return firebaseService.deleteUser(name);
     }
+
+    @GetMapping("/getShoppingList")
+    public List getShoppingList(@RequestParam String name) throws InterruptedException, ExecutionException{
+        return firebaseService.findShoppingList(name);
+    }
 }
 

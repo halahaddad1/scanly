@@ -2,13 +2,15 @@ package com.scanly.app.CanonicalProducts;
 import au.com.bytecode.opencsv.CSVReader;
 import com.scanly.app.service.FirebaseService;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ParseFullCSV {
     @SuppressWarnings("resource")
-    public static void main(String[] args) throws Exception
-    {
+    public void parseCSV() throws IOException, ExecutionException, InterruptedException {
         //Build reader instance
         CSVReader reader = new CSVReader(new FileReader("src/main/resources/ScanlyCanonicalProducstData.csv"), ',', '"', 1);
 
@@ -39,6 +41,7 @@ public class ParseFullCSV {
                     if (!seedName.equals("")) {
 //                        System.out.println(name + " : " + nickname );
                         CanonicalProduct canonicalProduct = new CanonicalProduct(seedName, canonicalName);
+                        System.out.println(canonicalProduct.getSeedName());
                         service.saveCanonicalProductDetails(canonicalProduct);
                         i += 1;
                     } else {

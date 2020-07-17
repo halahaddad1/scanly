@@ -1,14 +1,11 @@
 package com.scanly.app.UsersController;
 
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
+import com.scanly.app.utilities.JsonMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -52,8 +49,8 @@ public class UsersController {
     }
 
     @GetMapping("/getShoppingList")
-    public List getShoppingList(@RequestParam String name) throws InterruptedException, ExecutionException{
-        return firebaseService.findShoppingList(name);
+    public JsonMessage<List> getShoppingList(@RequestParam String name) throws InterruptedException, ExecutionException{
+        return new JsonMessage<>(firebaseService.findShoppingList(name));
     }
 }
 

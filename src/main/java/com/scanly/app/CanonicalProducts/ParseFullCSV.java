@@ -1,11 +1,8 @@
 package com.scanly.app.CanonicalProducts;
 import au.com.bytecode.opencsv.CSVReader;
 import com.scanly.app.service.FirebaseService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +10,33 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 public class ParseFullCSV {
+
+//
+//    @SuppressWarnings("resource")
+//    public static void main(String[] args) throws Exception
+//    {
+//        //Build reader instance
+//        CSVReader reader = new CSVReader(new FileReader("src/main/resources/ScanlyCanonicalProducstData.csv"), ',', '"', 1);
+//
+//        //Read all rows at once
+//        List<String[]> allRows = reader.readAll();
+//
+//        //Read CSV line by line and use the string array as you want
+//        for(String[] row : allRows) {
+//            int i = 1;
+//            while (i < row.length) {
+//                String name = row[0];
+//                String nickname = row[i];
+//                if (!nickname.equals("")) {
+//                    System.out.println(name + " : " + nickname);
+//                    i += 1;
+//                } else {
+//                    i = row.length;
+//                }
+//            }
+//        }
+//    }
+
     //@Autowired
     //FirebaseService firebaseService;
 
@@ -49,6 +73,9 @@ public class ParseFullCSV {
                         break;
                     }
                     String seedName = saveRow[i];
+                    if (seedName.contains("/")) {
+                        seedName = seedName.replace("/", "");
+                    }
                     if (!seedName.equals("")) {
 //                        System.out.println(name + " : " + nickname );
                         CanonicalProduct canonicalProduct = new CanonicalProduct(seedName, canonicalName);

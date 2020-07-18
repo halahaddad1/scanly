@@ -5,35 +5,27 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.springframework.beans.factory.annotation.Value;
-
-import com.scanly.app.Receipt.Receipt;
-import com.scanly.app.User.User;
-import com.scanly.app.service.FirebaseService;
-
-//import com.google.api.client.util.Value;
 import com.scanly.app.Product.Product;
-import com.scanly.app.ShoppingList.ShoppingList;
 import com.scanly.app.Receipt.Receipt;
+import com.scanly.app.ShoppingList.ShoppingList;
 import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import java.io.IOException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
+
+//import com.google.api.client.util.Value;
 
 public class KlippaApiCall {
 
@@ -111,8 +103,8 @@ public class KlippaApiCall {
         fileheaders.setContentDisposition(ContentDisposition.parse("form-data; name=\"document\"; filename=\"scan.jpg\""));
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-        headers.set("X-Auth-Key" , klippaAuth);
-
+//        headers.set("X-Auth-Key" , klippaAuth);
+        headers.set("X-Auth-Key" , "Sr730nTff5FuJL0sHvoNGXFcP2dk0M7X");
 
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();

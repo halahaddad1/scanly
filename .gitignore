@@ -30,7 +30,7 @@ build/
 ### VS Code ###
 .vscode/
 
-serviceAccount.json
+
 
 ./src/main/resources/application.properties
 application.properties

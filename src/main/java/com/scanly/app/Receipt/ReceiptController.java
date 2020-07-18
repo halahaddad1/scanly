@@ -4,6 +4,9 @@ import com.scanly.app.KlippaApiCall.KlippaApiCall;
 import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,19 +14,26 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.concurrent.ExecutionException;
 
+
+
+//@Configuration
+//@PropertySource(value = "classpath:src/main/resources/application.properties")
 @RestController
 public class ReceiptController {
 
     @Autowired
     FirebaseService firebaseService;
 
+    @Value("${KLIPPA_AUTH}")
+    private String KLIPPA_AUTH;
     @PostMapping("/ocrImage")
 
     public void klippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
-        KlippaApiCall quote = new KlippaApiCall();
+        KlippaApiCall klippa = new KlippaApiCall();
         FirebaseService service = new FirebaseService();
         User user = service.getUserDetails(name);
-        quote.klippaMultiPartPostRequest(file.getBytes(), user);
+
+        klippa.klippaMultiPartPostRequest(file.getBytes(), user, KLIPPA_AUTH);
 //            return the status code to flutter
     }
 //    @PutMapping("/ocrImage")

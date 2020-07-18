@@ -19,7 +19,7 @@ import java.util.List;
 public class User {
 
     private String name;
-    private ShoppingList shoppingList = new ShoppingList(name+"'s shopping list");
+    private ShoppingList shoppingList = new ShoppingList(this.name+"'s shopping list");
     @Builder.Default
     private List<Receipt> receipts = new ArrayList<Receipt>();
 

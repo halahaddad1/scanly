@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.scanly.app.CanonicalProducts.CanonicalProduct;
 import com.scanly.app.Product.Product;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.ShoppingList.ShoppingList;
@@ -197,7 +198,12 @@ public class KlippaApiCall {
 //        Stream.of(products).map(Product::toBuilder)
         for (JsonNode product : products) {
             String title = product.path("title").asText();
-            Product addProduct = new Product(title);
+            if (title.contains("/")) {
+                title = title.replace("/", "");
+            }
+            CanonicalProduct canonical = service.getCanonicalProductDetails(title.toLowerCase());
+            String canonicalName = canonical.getCanonicalName();
+            Product addProduct = new Product(canonicalName);
             userReceipt.addProductObject(addProduct);
             shoppingList.addShoppingItems(addProduct);
             service.updateProductDetails(addProduct);

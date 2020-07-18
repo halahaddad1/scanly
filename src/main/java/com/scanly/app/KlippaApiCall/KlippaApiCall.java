@@ -10,7 +10,6 @@ import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.ShoppingList.ShoppingList;
 import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,6 +25,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 //import com.google.api.client.util.Value;
+
 
 public class KlippaApiCall {
 
@@ -93,9 +93,8 @@ public class KlippaApiCall {
 
     }
 
-    @Value("${KLIPPA_AUTH}")
-    private String klippaAuth;
-    public void klippaMultiPartPostRequest(byte[] arr, User user) throws IOException, ExecutionException, InterruptedException, ParseException {
+
+    public void klippaMultiPartPostRequest(byte[] arr, User user, String KLIPPA_AUTH) throws IOException, ExecutionException, InterruptedException, ParseException {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -103,8 +102,8 @@ public class KlippaApiCall {
         fileheaders.setContentDisposition(ContentDisposition.parse("form-data; name=\"document\"; filename=\"scan.jpg\""));
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
-//        headers.set("X-Auth-Key" , klippaAuth);
-        headers.set("X-Auth-Key" , "Sr730nTff5FuJL0sHvoNGXFcP2dk0M7X");
+        headers.set("X-Auth-Key" , KLIPPA_AUTH);
+
 
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
@@ -131,6 +130,9 @@ public class KlippaApiCall {
 //        toPrettyString() -> prints like text
 //        toString() -> returns JSON string
 //        asText() -> actual String
+        FirebaseService service = new FirebaseService();
+        service.updateUserDetails(user);
+//        User user = service.getUserDetails(userName);
 
         JsonNode name = root.path("data").path("date");
         String prettyStringName = name.toPrettyString();
@@ -161,8 +163,7 @@ public class KlippaApiCall {
         Receipt userReceipt = new Receipt(name.asText(), receiptDate);
         user.addReceiptObject(userReceipt);
 
-        FirebaseService service = new FirebaseService();
-        service.updateUserDetails(user);
+
 
 //        Stream.of(products).map(product -> Product.builder()
 //                                                  .name(product.path("title").asText())

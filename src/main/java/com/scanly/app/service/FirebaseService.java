@@ -62,10 +62,10 @@ public class FirebaseService {
 //            System.out.println(document.getId() + " => " + document.toObject(User.class));
 //            /* Specify the size of the list up front to prevent resizing. */
 //        }
-            List<User> userList = new ArrayList<>(documents.size());
-            for (QueryDocumentSnapshot document : documents) {
-                userList.add(document.toObject(User.class));
-            }
+        List<User> userList = new ArrayList<>(documents.size());
+        for (QueryDocumentSnapshot document : documents) {
+            userList.add(document.toObject(User.class));
+        }
         return userList;
     }
 
@@ -251,5 +251,3 @@ public class FirebaseService {
     }
 
 }
-
-

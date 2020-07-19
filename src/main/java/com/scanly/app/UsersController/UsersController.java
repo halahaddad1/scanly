@@ -12,8 +12,9 @@ import java.util.concurrent.ExecutionException;
 @RestController
 public class UsersController {
 
-        @Autowired
-        FirebaseService firebaseService;
+    @Autowired
+    FirebaseService firebaseService;
+
     @GetMapping("/getUserDetails")
     public User getUser(@RequestParam (required = false) String name) throws InterruptedException, ExecutionException{
         return firebaseService.getUserDetails(name);
@@ -37,19 +38,19 @@ public class UsersController {
         return firebaseService.saveUserDetails(user);
     }
 
-    @PostMapping("/createNewUser")
-    public String createNewUser(@RequestBody String user) throws InterruptedException, ExecutionException {
-        //    query the db for the user name
-        //    if available, return list
-        //    if new
-       User createUser = new User(user);
-        createUser.toBuilder()
-                .name(createUser.setName())
-                .receipts(createUser.setReceipts())
-                .shoppingList(createUser.setShoppingList())
-                .build();
-        return firebaseService.saveUserDetails(createUser);
-    }
+//    @PostMapping("/createNewUser")
+//    public String createNewUser(@RequestBody String user) throws InterruptedException, ExecutionException {
+//        //    query the db for the user name
+//        //    if available, return list
+//        //    if new
+//       User createUser = new User(user);
+//        createUser.toBuilder()
+//                .name(createUser.setName())
+//                .receipts(createUser.setReceipts())
+//                .shoppingList(createUser.setShoppingList())
+//                .build();
+//        return firebaseService.saveUserDetails(createUser);
+//    }
 
     @PutMapping("/updateUser")
     public String updateUser(@RequestBody User user  ) throws InterruptedException, ExecutionException {

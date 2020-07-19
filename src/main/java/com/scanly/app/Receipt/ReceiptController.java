@@ -34,6 +34,7 @@ public class ReceiptController {
         klippa.klippaMultiPartPostRequest(file.getBytes(), user, KLIPPA_AUTH);
 //            return the status code to flutter
     }
+
 //    @PutMapping("/ocrImage")
 //    public void updateKlippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
 //        KlippaApiCall klippa = new KlippaApiCall();

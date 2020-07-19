@@ -4,6 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.scanly.app.CanonicalProducts.CanonicalProduct;
+import com.scanly.app.Product.ShoppingListProduct;
 import com.scanly.app.ShoppingList.ShoppingList;
 import com.scanly.app.Product.Product;
 import com.scanly.app.Receipt.Receipt;
@@ -69,8 +70,8 @@ public class FirebaseService {
         return userList;
     }
 
-    public List<Product> findShoppingList(String name) throws ExecutionException, InterruptedException {
-
+//    public List<Product> findShoppingList(String name) throws ExecutionException, InterruptedException {
+    public List<ShoppingListProduct> findShoppingList(String name) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection("users").document(name);
         ApiFuture<DocumentSnapshot> future = documentReference.get();

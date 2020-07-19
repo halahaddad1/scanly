@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scanly.app.CanonicalProducts.CanonicalProduct;
 import com.scanly.app.Product.Product;
+import com.scanly.app.Product.ShoppingListProduct;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.ShoppingList.ShoppingList;
 import com.scanly.app.User.User;
@@ -44,11 +45,9 @@ public class KlippaApiCall {
 
         System.out.println(response.getBody());
 
-
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(response.getBody());
         JsonNode contents = root.path("contents").path("quotes").get(0);
-
 
         System.out.println("this is the response status code : " + response.getStatusCode());
 
@@ -104,7 +103,6 @@ public class KlippaApiCall {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         headers.set("X-Auth-Key" , KLIPPA_AUTH);
-
 
         MultiValueMap<String, Object> body
                 = new LinkedMultiValueMap<>();
@@ -215,7 +213,11 @@ public class KlippaApiCall {
                 String canonicalName = canonical.getCanonicalName();
                 Product addProduct = new Product(canonicalName);
                 userReceipt.addProductObject(addProduct);
-                shoppingList.addShoppingItems(addProduct);
+
+                // making a shopping list product
+                ShoppingListProduct listProduct = new ShoppingListProduct(canonicalName, receiptDate);
+                shoppingList.addShoppingItems(listProduct);
+
                 service.updateProductDetails(addProduct);
                 service.updateReceiptDetails(userReceipt);
                 service.updateListDetails(shoppingList);

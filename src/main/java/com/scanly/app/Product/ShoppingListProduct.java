@@ -14,21 +14,23 @@ import java.util.Date;
 public class ShoppingListProduct extends Product {
     private double frequency;
     private boolean show;
+    private int count;
+    private Date firstBought;
     private Date lastBought;
 
-    // overloading this constructor so that it can be build with a frequency or with default frequency.
-    public ShoppingListProduct(String name, double frequency,boolean show, Date lastBought) {
-       super(name);
-       this.frequency = frequency;
-       this.show = show;
-       this.lastBought = lastBought;
-    }
-
+    // this is for the first time a shopping list product is added
     public ShoppingListProduct(String name, Date lastBought) {
         super(name);
         this.frequency = 10.0;
         this.show = true;
+        this.count = 1;
+        this.firstBought = lastBought;
         this.lastBought = lastBought;
     }
+
+
+   public double updateFrequency() {
+        return (this.lastBought.getTime() - this.firstBought.getTime()) / count;
+   }
 
 }

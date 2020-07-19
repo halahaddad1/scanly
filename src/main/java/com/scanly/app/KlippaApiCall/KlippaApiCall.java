@@ -135,6 +135,7 @@ public class KlippaApiCall {
 //            user.setReceipts();
 //            user.getShoppingList(user.getName());
         }
+        // HALA do we need the next line here or at the end of the method only?
         service.updateUserDetails(user);
 
 
@@ -212,15 +213,34 @@ public class KlippaApiCall {
                continue;
             } else {
                 String canonicalName = canonical.getCanonicalName();
-                Product addProduct = new Product(canonicalName);
-                userReceipt.addProductObject(addProduct);
+                Product receiptProduct = new Product(canonicalName);
+                userReceipt.addProductObject(receiptProduct);
+                service.updateReceiptDetails(userReceipt);
 
-                // making a shopping list product
                 ShoppingListProduct listProduct = new ShoppingListProduct(canonicalName, receiptDate);
                 shoppingList.addShoppingItems(listProduct);
+                
+//                ShoppingListProduct listProduct;
+//                for (ShoppingListProduct pastProduct : shoppingList.getShoppingItems()) {
+//                    if (pastProduct.getName() == receiptProduct.getName()) {
+//                        pastProduct.setLastBought(receiptDate);
+//                        pastProduct.setCount(pastProduct.getCount() + 1);
+//                        pastProduct.updateFrequency();
+//                        service.updateListDetails(shoppingList);
+//                        // would this be updated in the database based on line 238?
+//
+//                    } else {
+//                        listProduct = new ShoppingListProduct(canonicalName, receiptDate);
+//                        shoppingList.addShoppingItems(listProduct);
+//                        service.updateListDetails(shoppingList);
+//                    }
+//                }
 
-                service.updateProductDetails(addProduct);
-                service.updateReceiptDetails(userReceipt);
+
+                // HALA! this is where we are making a list of products in the data base, we don't need it
+//                service.updateProductDetails(addProduct);
+
+
                 service.updateListDetails(shoppingList);
                 service.updateUserDetails(user);
             }

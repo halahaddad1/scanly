@@ -162,6 +162,7 @@ public class KlippaApiCall {
 
 
         Receipt userReceipt = new Receipt(name.asText(), receiptDate);
+        
         user.addReceiptObject(userReceipt);
 
 
@@ -193,23 +194,27 @@ public class KlippaApiCall {
 //                        e.printStackTrace();
 //                    }
 //                });
-        ShoppingList shoppingList = user.getShoppingList();
+        ShoppingList shoppingList = user.getShoppingList(user.getName());
 
 //        Stream.of(products).map(Product::toBuilder)
         for (JsonNode product : products) {
-            String title = product.path("title").asText();
+            String title = product.path("title").asText().toLowerCase();
             if (title.contains("/")) {
                 title = title.replace("/", "");
             }
-            CanonicalProduct canonical = service.getCanonicalProductDetails(title.toLowerCase());
-            String canonicalName = canonical.getCanonicalName();
-            Product addProduct = new Product(canonicalName);
-            userReceipt.addProductObject(addProduct);
-            shoppingList.addShoppingItems(addProduct);
-            service.updateProductDetails(addProduct);
-            service.updateReceiptDetails(userReceipt);
-            service.updateListDetails(shoppingList);
-            service.updateUserDetails(user);
+            CanonicalProduct canonical = service.getCanonicalProductDetails(title);
+            if ( canonical == null ){
+               continue;
+            } else {
+                String canonicalName = canonical.getCanonicalName();
+                Product addProduct = new Product(canonicalName);
+                userReceipt.addProductObject(addProduct);
+                shoppingList.addShoppingItems(addProduct);
+                service.updateProductDetails(addProduct);
+                service.updateReceiptDetails(userReceipt);
+                service.updateListDetails(shoppingList);
+                service.updateUserDetails(user);
+            }
         }
 
         System.out.println("this is the response status code : " + response.getStatusCode());

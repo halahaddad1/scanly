@@ -19,16 +19,17 @@ import java.util.List;
 public class User {
 
     private String name;
-    private ShoppingList shoppingList = new ShoppingList(this.name+"'s shopping list");
+    private ShoppingList shoppingList = new ShoppingList("${name}'s shopping list");
     @Builder.Default
     private List<Receipt> receipts = new ArrayList<Receipt>();
 
 
-    public ShoppingList getShoppingList(){
+    public ShoppingList getShoppingList(String username){
         if(this.shoppingList == null){
-            this.shoppingList = new ShoppingList(this.name+"'s shopping list");
+            this.shoppingList = new ShoppingList(username);
             return this.shoppingList;
         } else {
+            this.shoppingList.setName(username);
             return this.shoppingList;
         }
     }
@@ -38,6 +39,8 @@ public class User {
     }
     public void addReceiptObject(Receipt receipt) {
         this.receipts.add(receipt);
+    }
+    public void addProduct(Receipt receipt, String product, String name){
     }
 
 }

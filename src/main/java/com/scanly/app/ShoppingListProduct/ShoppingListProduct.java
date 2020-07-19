@@ -1,5 +1,6 @@
-package com.scanly.app.Product;
+package com.scanly.app.ShoppingListProduct;
 
+import com.scanly.app.Product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scanly.app.CanonicalProducts.CanonicalProduct;
 import com.scanly.app.Product.Product;
-import com.scanly.app.Product.ShoppingListProduct;
+import com.scanly.app.ShoppingListProduct.ShoppingListProduct;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.ShoppingList.ShoppingList;
 import com.scanly.app.User.User;

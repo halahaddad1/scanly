@@ -4,7 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.scanly.app.CanonicalProducts.CanonicalProduct;
-import com.scanly.app.Product.ShoppingListProduct;
+import com.scanly.app.ShoppingListProduct.ShoppingListProduct;
 import com.scanly.app.ShoppingList.ShoppingList;
 import com.scanly.app.Product.Product;
 import com.scanly.app.Receipt.Receipt;

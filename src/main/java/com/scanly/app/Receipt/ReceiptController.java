@@ -29,7 +29,12 @@ public class ReceiptController {
     public void klippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
         KlippaApiCall klippa = new KlippaApiCall();
         FirebaseService service = new FirebaseService();
-        User user = service.getUserDetails(name);
+        User user;
+        if (service.getUserDetails(name) == null ) {
+            user = new User(name);
+        } else {
+            user = service.getUserDetails(name);
+        }
 
         klippa.klippaMultiPartPostRequest(file.getBytes(), user, KLIPPA_AUTH);
 //            return the status code to flutter

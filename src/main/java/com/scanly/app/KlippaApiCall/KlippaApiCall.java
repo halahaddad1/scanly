@@ -131,8 +131,9 @@ public class KlippaApiCall {
 //        asText() -> actual String
         FirebaseService service = new FirebaseService();
         if (user.getReceipts() == null){
-            user.setReceipts();
-            user.getShoppingList(user.getName());
+            service.saveUserDetails(user);
+//            user.setReceipts();
+//            user.getShoppingList(user.getName());
         }
         service.updateUserDetails(user);
 

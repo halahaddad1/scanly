@@ -53,5 +53,6 @@ public class User {
         this.receipts = new ArrayList<Receipt>();
         return this.receipts;
     }
+
 }
 

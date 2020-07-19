@@ -21,9 +21,11 @@ public class FirebaseService {
     public String saveUserDetails(User user) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("users").document(user.getName()).set(user);
+        // please return the username!
         return collectionsApiFuture.get().getUpdateTime().toString();
 
     }
+
 
     public User getUserDetails(String name) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();

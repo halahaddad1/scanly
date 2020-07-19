@@ -38,17 +38,14 @@ public class UsersController {
         return firebaseService.saveUserDetails(user);
     }
 
-//    @PostMapping("/createNewUser")
-//    public String createNewUser(@RequestBody String user) throws InterruptedException, ExecutionException {
-//        //    query the db for the user name
-//        //    if available, return list
-//        //    if new
-//       User createUser = new User(user);
-//        createUser.toBuilder()
-//                .name(createUser.setName())
-//                .receipts(createUser.setReceipts())
-//                .shoppingList(createUser.setShoppingList())
-//                .build();
+////    @PostMapping("/createNewUser")
+//    public String createNewUser(@RequestBody String userName) throws InterruptedException, ExecutionException {
+//       User createUser = new User(userName);
+//       createUser.toBuilder()
+//            .name(userName)
+//            .receipts(createUser.getReceipts())
+//            .shoppingList(createUser.getShoppingList())
+//            .build();
 //        return firebaseService.saveUserDetails(createUser);
 //    }
 

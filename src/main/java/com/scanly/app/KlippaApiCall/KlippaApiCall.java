@@ -219,7 +219,7 @@ public class KlippaApiCall {
 
                 ShoppingListProduct listProduct = new ShoppingListProduct(canonicalName, receiptDate);
                 shoppingList.addShoppingItems(listProduct);
-                
+
 //                ShoppingListProduct listProduct;
 //                for (ShoppingListProduct pastProduct : shoppingList.getShoppingItems()) {
 //                    if (pastProduct.getName() == receiptProduct.getName()) {

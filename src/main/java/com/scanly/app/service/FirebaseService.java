@@ -22,8 +22,9 @@ public class FirebaseService {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("users").document(user.getName()).set(user);
         // please return the username!
-        return collectionsApiFuture.get().getUpdateTime().toString();
-
+        collectionsApiFuture.get();
+        return this.getUserDetails(user.getName()).getName();
+//        return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
 

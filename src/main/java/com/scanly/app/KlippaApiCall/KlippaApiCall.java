@@ -132,7 +132,13 @@ public class KlippaApiCall {
 //        toString() -> returns JSON string
 //        asText() -> actual String
         FirebaseService service = new FirebaseService();
+        if (user.getReceipts() == null){
+            user.setReceipts();
+            user.getShoppingList(user.getName());
+        }
         service.updateUserDetails(user);
+
+
 //        User user = service.getUserDetails(userName);
 
         JsonNode name = root.path("data").path("date");

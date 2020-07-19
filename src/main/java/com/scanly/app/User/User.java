@@ -23,6 +23,12 @@ public class User {
     @Builder.Default
     private List<Receipt> receipts = new ArrayList<Receipt>();
 
+    public User(String user) {
+        this.name = user;
+        this.shoppingList = new ShoppingList(user);
+        this.receipts = new ArrayList<Receipt>();
+    }
+
 
     public ShoppingList getShoppingList(String username){
         if(this.shoppingList == null){
@@ -43,5 +49,9 @@ public class User {
     public void addProduct(Receipt receipt, String product, String name){
     }
 
+    public List<Receipt> setReceipts() {
+        this.receipts = new ArrayList<Receipt>();
+        return this.receipts;
+    }
 }
 

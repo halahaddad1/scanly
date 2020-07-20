@@ -32,7 +32,7 @@ public class ShoppingListProduct extends Product {
 
    public void updateDaysBetweenPurchaces() {
 
-       this.daysBetweenPurchaces = Math.abs(this.lastBought.getTime() - this.firstBought.getTime()) / timesBought * (1000 * 60 * 60 * 24);
+       this.daysBetweenPurchaces = Math.abs(this.lastBought.getTime() - this.firstBought.getTime()) / (timesBought * (1000 * 60 * 60 * 24));
    }
 
 }

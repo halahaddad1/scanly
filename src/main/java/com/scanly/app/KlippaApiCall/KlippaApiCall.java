@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scanly.app.CanonicalProducts.CanonicalProduct;
 import com.scanly.app.Product.Product;
-import com.scanly.app.ShoppingListProduct.ShoppingListProduct;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.ShoppingList.ShoppingList;
+import com.scanly.app.ShoppingListProduct.ShoppingListProduct;
 import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
 import org.springframework.core.io.FileSystemResource;
@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 //import com.google.api.client.util.Value;
@@ -201,6 +202,7 @@ public class KlippaApiCall {
 //                    }
 //                });
         ShoppingList shoppingList = user.getShoppingList(user.getName());
+        var listItems = shoppingList.getShoppingItems();
 
 //        Stream.of(products).map(Product::toBuilder)
         for (JsonNode product : products) {
@@ -215,37 +217,35 @@ public class KlippaApiCall {
                 String canonicalName = canonical.getCanonicalName();
                 Product receiptProduct = new Product(canonicalName);
                 userReceipt.addProductObject(receiptProduct);
-                service.updateReceiptDetails(userReceipt);
-
-                ShoppingListProduct listProduct = new ShoppingListProduct(canonicalName, receiptDate);
-                shoppingList.addShoppingItems(listProduct);
+//                service.updateReceiptDetails(userReceipt);
+//
+//                ShoppingListProduct listProduct = new ShoppingListProduct(canonicalName, receiptDate);
+//                shoppingList.addShoppingItems(listProduct);
 
 //                ShoppingListProduct listProduct;
-//                for (ShoppingListProduct pastProduct : shoppingList.getShoppingItems()) {
-//                    if (pastProduct.getName() == receiptProduct.getName()) {
-//                        pastProduct.setLastBought(receiptDate);
-//                        pastProduct.setCount(pastProduct.getCount() + 1);
-//                        pastProduct.updateFrequency();
-//                        service.updateListDetails(shoppingList);
-//                        // would this be updated in the database based on line 238?
-//
-//                    } else {
-//                        listProduct = new ShoppingListProduct(canonicalName, receiptDate);
-//                        shoppingList.addShoppingItems(listProduct);
-//                        service.updateListDetails(shoppingList);
-//                    }
-//                }
+                Optional<ShoppingListProduct> result = listItems.stream().filter((listProduct) -> listProduct.getName().equals(receiptProduct.getName())).findFirst();
 
+                if (result.isPresent()) {
+                    var pastProduct = result.get();
+                    // var firebaseList = service.getShoppingListProductDetails(pastProduct.getName());
+                    pastProduct.setLastBought(receiptDate);
+                    pastProduct.setTimesBought(pastProduct.getTimesBought() + 1);
+                    pastProduct.updateDaysBetweenPurchaces();
+                } else {
+                    ShoppingListProduct listProduct = new ShoppingListProduct(canonicalName, receiptDate);
+                    shoppingList.addShoppingItems(listProduct);
+                }
 
+                // System.out.println(shoppingList);
                 // HALA! this is where we are making a list of products in the data base, we don't need it
-//                service.updateProductDetails(addProduct);
+                // service.updateProductDetails(receiptProduct);
 
+                // service.updateListDetails(shoppingList);
 
-                service.updateListDetails(shoppingList);
-                service.updateUserDetails(user);
             }
         }
-
+//        service.updateListDetails(shoppingList);
+        service.updateUserDetails(user);
         System.out.println("this is the response status code : " + response.getStatusCode());
         System.out.println("this is the name: " + name.asText());
 //        System.out.println("this is the date: " + prettyStringCreatedOn);

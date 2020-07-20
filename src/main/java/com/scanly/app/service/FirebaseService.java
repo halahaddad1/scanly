@@ -218,11 +218,37 @@ public class FirebaseService {
 
     }
 
+    // not using this
+//    public ShoppingListProduct getShoppingListProductDetails(String name) throws InterruptedException, ExecutionException {
+//        Firestore dbFirestore = FirestoreClient.getFirestore();
+//        DocumentReference documentReference = dbFirestore.collection("shoppingList").document(name);
+//        ApiFuture<DocumentSnapshot> future = documentReference.get();
+//
+//        DocumentSnapshot document = future.get();
+//
+//        ShoppingListProduct product = null;
+//
+//        if(document.exists()) {
+//            product = document.toObject(ShoppingListProduct.class);
+//            return product;
+//        }else {
+//            return null;
+//        }
+//
+//    }
+
     public String updateProductDetails(Product product) throws InterruptedException, ExecutionException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("products").document(product.getName()).set(product);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
+
+    // not using this
+//    public String updateShoppingListProductDetails(ShoppingListProduct product) throws InterruptedException, ExecutionException {
+//        Firestore dbFirestore = FirestoreClient.getFirestore();
+//        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("shoppingList").document(product.getName()).set(product);
+//        return collectionsApiFuture.get().getUpdateTime().toString();
+//    }
 
     public String deleteProduct(String name) {
         Firestore dbFirestore = FirestoreClient.getFirestore();

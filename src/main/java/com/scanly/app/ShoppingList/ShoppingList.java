@@ -30,8 +30,9 @@ public class ShoppingList {
 //        this.shoppingItems.add(product);
 //    }
     public void addShoppingItems(ShoppingListProduct product) {
-    this.shoppingItems.add(product);
-}
+        this.shoppingItems.add(product);
+    }
+
 }
 
 

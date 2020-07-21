@@ -292,18 +292,31 @@ public class FirebaseService {
         return null;
     }
 
-    public List<Product> getRecommendationsList(User user) throws ExecutionException, InterruptedException {
+    public List<Product> getRecommendationsList(String name) throws ExecutionException, InterruptedException {
         try {
             Firestore dbFirestore = FirestoreClient.getFirestore();
-            DocumentReference documentReference = dbFirestore.collection("users").document(user.getName());
+            DocumentReference documentReference = dbFirestore.collection("users").document(name);
             ApiFuture<DocumentSnapshot> future = documentReference.get();
 
             DocumentSnapshot document = future.get();
             if (document.exists()) {
-                user = document.toObject(User.class);
+                User user= this.getUserDetails(name);
+                user.setProductRecommendations();
+                this.saveUserDetails(user);
                 return user.getProductRecommendations();
             } else {
-                return null;
+            User newUser= new User(name);
+                newUser.toBuilder()
+                            .name(newUser.getName())
+                            .receipts(newUser.getReceipts())
+                            .shoppingList(newUser.getShoppingList())
+                            .ProductRecommendations(newUser.getProductRecommendations())
+                            .build();
+                            this.saveUserDetails(newUser);
+                User user= this.getUserDetails(name);
+                user.setProductRecommendations();
+                this.saveUserDetails(user);
+                return user.getProductRecommendations();
             }
         } catch (ExecutionException e){
             return null;

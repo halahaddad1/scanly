@@ -4,15 +4,13 @@ import com.scanly.app.Product.Product;
 import com.scanly.app.ProductRecommendations.implementSimpleSimilarityAlgorithm;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.ShoppingList.ShoppingList;
+import com.scanly.app.ShoppingListProduct.ShoppingListProduct;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
     @Data
@@ -29,6 +27,12 @@ import java.util.concurrent.ExecutionException;
         @Builder.Default
         private List<Product> ProductRecommendations = new ArrayList<Product>();
 
+        public User(String name) {
+            this.name = name;
+           this.shoppingList = new ShoppingList("${name}'s shopping list");
+           this.receipts = new ArrayList<Receipt>();
+           this.ProductRecommendations = new ArrayList<Product>();
+        }
 
         public ShoppingList getShoppingList(String username){
             if(this.shoppingList == null){
@@ -54,33 +58,31 @@ import java.util.concurrent.ExecutionException;
             return this.receipts;
         }
 
-        public List<Product> setProductRecommendations() throws InterruptedException {
+        public void setProductRecommendations() throws InterruptedException {
 
             implementSimpleSimilarityAlgorithm simple = new implementSimpleSimilarityAlgorithm();
             try {
-                HashMap<String, String> recommendationsHash = implementSimpleSimilarityAlgorithm.ShowRecommendations();
-                String[] list = (String[]) recommendationsHash.values().toArray();
+                HashMap<String, String> recommendationsHash = simple.ShowRecommendations();
+                String[] list = recommendationsHash.values().toArray(new String[0]);
                 for(String item: list) {
-                    for (Product shoppingItems : this.shoppingList.getShoppingItems()) {
-                        if (!shoppingItems.getName().equals(item)) {
-                            this.ProductRecommendations.add(new Product(item));
+                    for (Product shoppingItem : this.shoppingList.getShoppingItems()) {
+                        if (!shoppingItem.getName().equals(item)) {
+                            if (!this.ProductRecommendations.contains(shoppingItem)) {
+                                this.ProductRecommendations.add(new Product(item));
+                            }else{
+                                continue;
+                            }
                         }
                     }
                 }
             } catch (ExecutionException e){
-                List<Product> list = new ArrayList<Product>();
-                return list;
+                 List<Product> ProductRecommendations = new ArrayList<Product>();
+                this.ProductRecommendations = ProductRecommendations;
             }
-            return this.ProductRecommendations;
         }
 
         public List<Product> getProductRecommendations() {
-            try {
-                return this.setProductRecommendations();
-            } catch (InterruptedException e){
-                List<Product> list = new ArrayList<Product>();
-                return list;
-            }
+            return this.ProductRecommendations;
         }
 
     }

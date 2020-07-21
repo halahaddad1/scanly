@@ -31,7 +31,7 @@ public class ReceiptController {
         FirebaseService service = new FirebaseService();
         User user;
         if (service.getUserDetails(name) == null ) {
-            user = new User(name);
+            user = firebaseService.getUserDetails(name);
         } else {
             user = service.getUserDetails(name);
         }

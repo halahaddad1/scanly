@@ -26,6 +26,8 @@ public class UsersController {
 
     @PostMapping("/createUser")
     public String createUser(@RequestBody User user) throws InterruptedException, ExecutionException {
+        User foundUser = firebaseService.getUserDetails(user.getName());
+        if (foundUser == null) {
         //    query the db for the user name
         //    if available, return list
         //    if new
@@ -36,6 +38,9 @@ public class UsersController {
                 .ProductRecommendations(user.getProductRecommendations())
                 .build();
         return firebaseService.saveUserDetails(user);
+        } else {
+            return foundUser.getName();
+        }
     }
 
 ////    @PostMapping("/createNewUser")

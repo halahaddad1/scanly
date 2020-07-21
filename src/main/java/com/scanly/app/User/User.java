@@ -29,12 +29,6 @@ import java.util.concurrent.ExecutionException;
         @Builder.Default
         private List<Product> ProductRecommendations = new ArrayList<Product>();
 
-        public User(String user) {
-            this.name = user;
-            this.shoppingList = new ShoppingList(user);
-            this.receipts = new ArrayList<Receipt>();
-            this.ProductRecommendations= new ArrayList<Product>();
-        }
 
         public ShoppingList getShoppingList(String username){
             if(this.shoppingList == null){

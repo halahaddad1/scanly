@@ -28,7 +28,9 @@ public class ShoppingListProduct extends Product {
         this.firstBought = lastBought;
         this.lastBought = lastBought;
     }
-
+public String getSuperName(){
+        return super.getName();
+}
 
    public void updateDaysBetweenPurchaces() {
 

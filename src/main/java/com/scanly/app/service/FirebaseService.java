@@ -37,10 +37,10 @@ public class FirebaseService {
 
         User user = null;
 
-        if(document.exists()) {
+        if (document.exists()) {
             user = document.toObject(User.class);
             return user;
-        }else {
+        } else {
             return null;
         }
     }
@@ -54,7 +54,7 @@ public class FirebaseService {
     public String deleteUser(String name) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> writeResult = dbFirestore.collection("users").document(name).delete();
-        return "Document with ID "+name+" has been deleted";
+        return "Document with ID " + name + " has been deleted";
     }
 
     public List<User> findAllUsers() throws Exception {
@@ -73,7 +73,7 @@ public class FirebaseService {
         return userList;
     }
 
-//    public List<Product> findShoppingList(String name) throws ExecutionException, InterruptedException {
+    //    public List<Product> findShoppingList(String name) throws ExecutionException, InterruptedException {
     public List<ShoppingListProduct> findShoppingList(String name) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         DocumentReference documentReference = dbFirestore.collection("users").document(name);
@@ -83,17 +83,13 @@ public class FirebaseService {
 
         User user = null;
 
-        if(document.exists()) {
+        if (document.exists()) {
             user = document.toObject(User.class);
             return user.getShoppingList().getShoppingItems();
-        }else {
+        } else {
             return null;
         }
     }
-
-
-
-
 
 
 //    public String klippaImage(String path) {
@@ -136,10 +132,10 @@ public class FirebaseService {
 
         Receipt receipt = null;
 
-        if(document.exists()) {
+        if (document.exists()) {
             receipt = document.toObject(Receipt.class);
             return receipt;
-        }else {
+        } else {
             return null;
         }
     }
@@ -153,7 +149,7 @@ public class FirebaseService {
     public String deleteReceipt(String name) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> writeResult = dbFirestore.collection("receipts").document(name).delete();
-        return "Document with ID "+name+" has been deleted";
+        return "Document with ID " + name + " has been deleted";
     }
 
     public String saveListDetails(ShoppingList shoppingList) throws InterruptedException, ExecutionException {
@@ -172,10 +168,10 @@ public class FirebaseService {
 
         ShoppingList shoppingList = null;
 
-        if(document.exists()) {
+        if (document.exists()) {
             shoppingList = document.toObject(ShoppingList.class);
             return shoppingList;
-        }else {
+        } else {
             return null;
         }
     }
@@ -189,7 +185,7 @@ public class FirebaseService {
     public String deleteList(String name) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> writeResult = dbFirestore.collection("lists").document(name).delete();
-        return "Document with ID "+name+" has been deleted";
+        return "Document with ID " + name + " has been deleted";
     }
 
     public String saveProductDetails(Product product) throws InterruptedException, ExecutionException {
@@ -208,10 +204,10 @@ public class FirebaseService {
 
         Product product = null;
 
-        if(document.exists()) {
+        if (document.exists()) {
             product = document.toObject(Product.class);
             return product;
-        }else {
+        } else {
             return null;
         }
 
@@ -253,7 +249,7 @@ public class FirebaseService {
     public String deleteProduct(String name) {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> writeResult = dbFirestore.collection("products").document(name).delete();
-        return "Document with ID "+name+" has been deleted";
+        return "Document with ID " + name + " has been deleted";
     }
 
     public String saveCanonicalProductDetails(CanonicalProduct canonicalProduct) throws InterruptedException, ExecutionException {
@@ -280,4 +276,31 @@ public class FirebaseService {
         }
     }
 
-}
+    public ShoppingListProduct getShoppingListProductDetails(String name, String product) throws InterruptedException, ExecutionException {
+        User user = this.getUserDetails(name);
+        for (ShoppingListProduct productO : user.getShoppingList().getShoppingItems()) {
+            if (productO.getSuperName().equals(product)) {
+                return productO;
+            } else {
+                continue;
+            }
+        }
+        return null;
+    }
+
+    public List<Product> getRecommendationsList(User user) throws ExecutionException, InterruptedException {
+            Firestore dbFirestore = FirestoreClient.getFirestore();
+            DocumentReference documentReference = dbFirestore.collection("users").document(user.getName());
+            ApiFuture<DocumentSnapshot> future = documentReference.get();
+
+            DocumentSnapshot document = future.get();
+
+            if (document.exists()) {
+                user = document.toObject(User.class);
+                return user.getProductRecommendations();
+            } else {
+                return null;
+            }
+        }
+    }
+

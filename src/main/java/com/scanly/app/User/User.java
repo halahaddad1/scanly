@@ -15,68 +15,80 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder(toBuilder = true)
+    public class User {
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder(toBuilder = true)
-public class User {
+        private String name;
+        @Builder.Default
+        private ShoppingList shoppingList = new ShoppingList("${name}'s shopping list");
+        @Builder.Default
+        private List<Receipt> receipts = new ArrayList<Receipt>();
+        @Builder.Default
+        private List<Product> ProductRecommendations = new ArrayList<Product>();
 
-    private String name;
-    private ShoppingList shoppingList = new ShoppingList("${name}'s shopping list");
-    @Builder.Default
-    private List<Receipt> receipts = new ArrayList<Receipt>();
-    private List<Product> ProductRecommendations = new ArrayList<Product>();
-
-    public User(String user) {
-        this.name = user;
-        this.shoppingList = new ShoppingList(user);
-        this.receipts = new ArrayList<Receipt>();
-        this.ProductRecommendations= new ArrayList<Product>();
-    }
-
-
-    public ShoppingList getShoppingList(String username){
-        if(this.shoppingList == null){
-            this.shoppingList = new ShoppingList(username);
-            return this.shoppingList;
-        } else {
-            this.shoppingList.setName(username);
-            return this.shoppingList;
+        public User(String user) {
+            this.name = user;
+            this.shoppingList = new ShoppingList(user);
+            this.receipts = new ArrayList<Receipt>();
+            this.ProductRecommendations= new ArrayList<Product>();
         }
-    }
 
-    public void addReceipt(String name, Date createdOn) {
-        this.receipts.add(new Receipt(name,createdOn));
-    }
-    public void addReceiptObject(Receipt receipt) {
-        this.receipts.add(receipt);
-    }
-    public void addProduct(Receipt receipt, String product, String name){
-    }
-
-    public List<Receipt> setReceipts() {
-        this.receipts = new ArrayList<Receipt>();
-        return this.receipts;
-    }
-
-    public List<Product> setProductRecommendations() throws ExecutionException, InterruptedException {
-        implementSimpleSimilarityAlgorithm simple = new implementSimpleSimilarityAlgorithm();
-        HashMap<String,String> recommendationsHash = implementSimpleSimilarityAlgorithm.ShowRecommendations();
-        String[] list = (String[]) recommendationsHash.values().toArray();
-        for(String item: list){
-            for(Product shoppingItems: this.shoppingList.getShoppingItems()){
-                if (!shoppingItems.getName().equals(item)){
-                    this.ProductRecommendations.add(new Product(item));
-                }
+        public ShoppingList getShoppingList(String username){
+            if(this.shoppingList == null){
+                this.shoppingList = new ShoppingList(username);
+                return this.shoppingList;
+            } else {
+                this.shoppingList.setName(username);
+                return this.shoppingList;
             }
         }
-        return this.ProductRecommendations;
+
+//        public void addReceipt(String name, Date createdOn) {
+//            this.receipts.add(new Receipt(name,createdOn));
+//        }
+        public void addReceiptObject(Receipt receipt) {
+            this.receipts.add(receipt);
+        }
+//        public void addProduct(Receipt receipt, String product, String name){
+//        }
+
+        public List<Receipt> setReceipts() {
+            this.receipts = new ArrayList<Receipt>();
+            return this.receipts;
+        }
+
+        public List<Product> setProductRecommendations() throws InterruptedException {
+
+            implementSimpleSimilarityAlgorithm simple = new implementSimpleSimilarityAlgorithm();
+            try {
+                HashMap<String, String> recommendationsHash = implementSimpleSimilarityAlgorithm.ShowRecommendations();
+                String[] list = (String[]) recommendationsHash.values().toArray();
+                for(String item: list) {
+                    for (Product shoppingItems : this.shoppingList.getShoppingItems()) {
+                        if (!shoppingItems.getName().equals(item)) {
+                            this.ProductRecommendations.add(new Product(item));
+                        }
+                    }
+                }
+            } catch (ExecutionException e){
+                List<Product> list = new ArrayList<Product>();
+                return list;
+            }
+            return this.ProductRecommendations;
+        }
+
+        public List<Product> getProductRecommendations() {
+            try {
+                return this.setProductRecommendations();
+            } catch (InterruptedException e){
+                List<Product> list = new ArrayList<Product>();
+                return list;
+            }
+        }
+
     }
 
-    public List<Product> getProductRecommendations() throws ExecutionException, InterruptedException {
-     return this.setProductRecommendations();
-    }
-
-}
 

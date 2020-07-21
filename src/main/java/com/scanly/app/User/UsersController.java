@@ -1,6 +1,5 @@
-package com.scanly.app.UsersController;
+package com.scanly.app.User;
 
-import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
 import com.scanly.app.utilities.JsonMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +33,7 @@ public class UsersController {
                 .name(user.getName())
                 .receipts(user.getReceipts())
                 .shoppingList(user.getShoppingList())
+                .ProductRecommendations(user.getProductRecommendations())
                 .build();
         return firebaseService.saveUserDetails(user);
     }

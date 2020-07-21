@@ -289,18 +289,22 @@ public class FirebaseService {
     }
 
     public List<Product> getRecommendationsList(User user) throws ExecutionException, InterruptedException {
+        try {
             Firestore dbFirestore = FirestoreClient.getFirestore();
             DocumentReference documentReference = dbFirestore.collection("users").document(user.getName());
             ApiFuture<DocumentSnapshot> future = documentReference.get();
 
             DocumentSnapshot document = future.get();
-
             if (document.exists()) {
                 user = document.toObject(User.class);
                 return user.getProductRecommendations();
             } else {
                 return null;
             }
+        } catch (ExecutionException e){
+            return null;
         }
+
     }
+}
 

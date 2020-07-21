@@ -35,8 +35,8 @@ public class implementSimpleSimilarityAlgorithm {
             int[][] matrix = new int[userNames.length][productNames.size()];
 
 //     let's loop through array to populate the matrix
-            for (int row = 0; row < matrix.length - 1; row++) {
-                for (int col = 0; col < matrix[row].length - 1; col++) {
+            for (int row = 0; row < matrix.length; row++) {
+                for (int col = 0; col < matrix[row].length; col++) {
                     ShoppingListProduct item = firebaseService.getShoppingListProductDetails(userNames[row], productNames.get(col));
                     if (item == null) {
                         matrix[row][col] = 0;
@@ -53,10 +53,10 @@ public class implementSimpleSimilarityAlgorithm {
 
             // let's loop through array to print each row and column
             HashMap<String,String> ProductRecommendations = new HashMap<String, String>();
-            for (int row = 0; row < imalgo.length - 1; row++) {
+            for (int row = 0; row < imalgo.length; row++) {
 //        for (int col = 0; col < imalgo[row].length-1; col++) {
                 List<Double> nonZero = new ArrayList<Double>();
-                for (int col2 = 0; col2 < imalgo[row].length - 1; col2++) {
+                for (int col2 = 0; col2 < imalgo[row].length; col2++) {
                     if (imalgo[row][col2] > 0) {
                         nonZero.add(imalgo[row][col2]);
                     }
@@ -64,10 +64,10 @@ public class implementSimpleSimilarityAlgorithm {
                 Collections.sort(nonZero);
                 if (nonZero.size() > 0) {
                     double product = nonZero.get(0);
-                    for (int i = 0; i < imalgo[row].length - 1; i++) {
+
+                    for (int i = 0; i < imalgo.length; i++) {
                         if (imalgo[row][i] == product) {
                             ProductRecommendations.put(productNames.get(row), productNames.get(i));
-                            break;
                         } else {
                             continue;
                         }

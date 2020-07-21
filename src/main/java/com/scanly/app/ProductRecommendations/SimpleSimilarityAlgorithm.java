@@ -13,7 +13,7 @@ import java.lang.Math;
 @Builder(toBuilder = true)
 public class SimpleSimilarityAlgorithm {
 
-    private int[][] productUserMatrix;
+    private int[][] userProductsMatrix;
 
 
 //      public double[][] calculateSimilarityViaHash() {
@@ -35,24 +35,24 @@ public class SimpleSimilarityAlgorithm {
 //        }
 
         public double[][] calculateSimilarity(){
-        double[][] distance = new double[this.productUserMatrix[0].length][this.productUserMatrix[0].length];
+        double[][] distance = new double[this.userProductsMatrix[0].length][this.userProductsMatrix[0].length];
 
-        for (int rowi = 0; rowi < this.productUserMatrix.length-1; rowi++) {
+        for (int coli = 0; coli < this.userProductsMatrix[0].length; coli++) {
             //for (int coli = 0; coli < this.productUserMatrix[rowi].length; coli++) {
-                distance[rowi][rowi]=0;
-                for (int rowj = rowi+1; rowj < this.productUserMatrix.length-1; rowj++) {
-                    double d = this.computeDistance(rowi, rowj);
-                    distance[rowi][rowj] = d;
-                    distance[rowi][rowj] = d;
+                distance[coli][coli]=0;
+                for (int colj = coli+1; colj < this.userProductsMatrix[0].length; colj++) {
+                    double d = this.computeDistance(coli, colj);
+                    distance[coli][colj] = d;
+                    distance[coli][colj] = d;
                 }
         }
         return distance;
     }
 
-    public double computeDistance(int row_i,int row_j){
+    public double computeDistance(int col_i,int col_j){
         double sum=0;
-        for(int i=0; i<this.productUserMatrix[0].length-1; i++){
-            sum += Math.pow(this.productUserMatrix[row_i][i], 2) + Math.pow(this.productUserMatrix[row_j][i], 2);
+        for(int i=0; i<this.userProductsMatrix.length; i++){
+            sum += Math.pow(this.userProductsMatrix[i][col_i], 2) + Math.pow(this.userProductsMatrix[i][col_j], 2);
         }
         return Math.sqrt(sum);
     }

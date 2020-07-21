@@ -28,14 +28,19 @@ public class UsersController {
     @PostMapping("/createUser")
     public String createUser(@RequestBody User user) throws InterruptedException, ExecutionException {
         //    query the db for the user name
-        //    if available, return list
-        //    if new
-        user.toBuilder()
-                .name(user.getName())
-                .receipts(user.getReceipts())
-                .shoppingList(user.getShoppingList())
-                .build();
-        return firebaseService.saveUserDetails(user);
+        User foundUser = firebaseService.getUserDetails(user.getName());
+        if (foundUser == null) {
+            //    if available, return list
+            //    if not
+            user.toBuilder()
+                    .name(user.getName())
+                    .receipts(user.getReceipts())
+                    .shoppingList(user.getShoppingList(user.getName()))
+                    .build();
+            return firebaseService.saveUserDetails(user);
+        } else {
+            return foundUser.getName();
+        }
     }
 
 ////    @PostMapping("/createNewUser")

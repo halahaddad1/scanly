@@ -85,6 +85,10 @@ public class FirebaseService {
 
         if (document.exists()) {
             user = document.toObject(User.class);
+            // ShoppingListProduct item = user.getShoppingList().getShoppingItems();
+            // if (item.timeToBuy()) {
+            // item.setShowOnList(true);
+            // service.updateListDetails(shoppingList); -> this needs to be something else I think
             return user.getShoppingList().getShoppingItems();
         } else {
             return null;

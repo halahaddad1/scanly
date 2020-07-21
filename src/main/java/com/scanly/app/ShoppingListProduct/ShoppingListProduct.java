@@ -22,19 +22,28 @@ public class ShoppingListProduct extends Product {
     // this is for the first time a shopping list product is added
     public ShoppingListProduct(String name, Date lastBought) {
         super(name);
-        this.daysBetweenPurchaces = 10.0;
-        this.showOnList = true;
+        this.daysBetweenPurchaces = 7.0;
+        this.showOnList = false;
         this.timesBought = 1;
         this.firstBought = lastBought;
         this.lastBought = lastBought;
     }
-public String getSuperName(){
+
+    public String getSuperName(){
         return super.getName();
 }
 
-   public void updateDaysBetweenPurchaces() {
-
+    public void updateDaysBetweenPurchaces() {
        this.daysBetweenPurchaces = Math.abs(this.lastBought.getTime() - this.firstBought.getTime()) / (timesBought * (1000 * 60 * 60 * 24));
-   }
+    }
+
+    public void timeToBuy() {
+        // what is today's date?
+        // if today's date - lastBought => daysBetweenPurchaces - 2
+        //
+        // return true
+        // else
+        // return false
+    }
 
 }

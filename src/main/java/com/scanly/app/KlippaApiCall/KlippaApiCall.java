@@ -230,6 +230,7 @@ public class KlippaApiCall {
                     // var firebaseList = service.getShoppingListProductDetails(pastProduct.getName());
                     pastProduct.setLastBought(receiptDate);
                     pastProduct.setTimesBought(pastProduct.getTimesBought() + 1);
+                    pastProduct.setShowOnList(false);
                     pastProduct.updateDaysBetweenPurchaces();
                 } else {
                     ShoppingListProduct listProduct = new ShoppingListProduct(canonicalName, receiptDate);

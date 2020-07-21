@@ -2,7 +2,6 @@ package com.scanly.app.User;
 
 import com.scanly.app.Product.Product;
 import com.scanly.app.ProductRecommendations.implementSimpleSimilarityAlgorithm;
-import com.scanly.app.ProductRecommendationsList.ProductRecommendationsList.ProductRecommendationsList;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.ShoppingList.ShoppingList;
 import lombok.AllArgsConstructor;
@@ -73,6 +72,10 @@ public class User {
             }
         }
         return this.ProductRecommendations;
+    }
+
+    public List<Product> getProductRecommendations() throws ExecutionException, InterruptedException {
+     return this.setProductRecommendations();
     }
 
 }

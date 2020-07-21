@@ -35,12 +35,12 @@ public class SimpleSimilarityAlgorithm {
 //        }
 
         public double[][] calculateSimilarity(){
-        double[][] distance = new double[this.productUserMatrix.length][this.productUserMatrix.length];
+        double[][] distance = new double[this.productUserMatrix[0].length][this.productUserMatrix[0].length];
 
-        for (int rowi = 0; rowi < this.productUserMatrix.length; rowi++) {
+        for (int rowi = 0; rowi < this.productUserMatrix.length-1; rowi++) {
             //for (int coli = 0; coli < this.productUserMatrix[rowi].length; coli++) {
                 distance[rowi][rowi]=0;
-                for (int rowj = rowi+1; rowj < this.productUserMatrix.length; rowj++) {
+                for (int rowj = rowi+1; rowj < this.productUserMatrix.length-1; rowj++) {
                     double d = this.computeDistance(rowi, rowj);
                     distance[rowi][rowj] = d;
                     distance[rowi][rowj] = d;
@@ -51,7 +51,7 @@ public class SimpleSimilarityAlgorithm {
 
     public double computeDistance(int row_i,int row_j){
         double sum=0;
-        for(int i=0; i<this.productUserMatrix[0].length; i++){
+        for(int i=0; i<this.productUserMatrix[0].length-1; i++){
             sum += Math.pow(this.productUserMatrix[row_i][i], 2) + Math.pow(this.productUserMatrix[row_j][i], 2);
         }
         return Math.sqrt(sum);

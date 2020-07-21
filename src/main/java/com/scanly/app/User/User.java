@@ -1,5 +1,8 @@
 package com.scanly.app.User;
 
+import com.scanly.app.Product.Product;
+import com.scanly.app.ProductRecommendations.implementSimpleSimilarityAlgorithm;
+import com.scanly.app.ProductRecommendationsList.ProductRecommendationsList.ProductRecommendationsList;
 import com.scanly.app.Receipt.Receipt;
 import com.scanly.app.ShoppingList.ShoppingList;
 import lombok.AllArgsConstructor;
@@ -9,7 +12,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 @Data
@@ -22,11 +27,13 @@ public class User {
     private ShoppingList shoppingList = new ShoppingList("${name}'s shopping list");
     @Builder.Default
     private List<Receipt> receipts = new ArrayList<Receipt>();
+    private List<Product> ProductRecommendations = new ArrayList<Product>();
 
     public User(String user) {
         this.name = user;
         this.shoppingList = new ShoppingList(user);
         this.receipts = new ArrayList<Receipt>();
+        this.ProductRecommendations= new ArrayList<Product>();
     }
 
 
@@ -52,6 +59,20 @@ public class User {
     public List<Receipt> setReceipts() {
         this.receipts = new ArrayList<Receipt>();
         return this.receipts;
+    }
+
+    public List<Product> setProductRecommendations() throws ExecutionException, InterruptedException {
+        implementSimpleSimilarityAlgorithm simple = new implementSimpleSimilarityAlgorithm();
+        HashMap<String,String> recommendationsHash = implementSimpleSimilarityAlgorithm.ShowRecommendations();
+        String[] list = (String[]) recommendationsHash.values().toArray();
+        for(String item: list){
+            for(Product shoppingItems: this.shoppingList.getShoppingItems()){
+                if (!shoppingItems.getName().equals(item)){
+                    this.ProductRecommendations.add(new Product(item));
+                }
+            }
+        }
+        return this.ProductRecommendations;
     }
 
 }

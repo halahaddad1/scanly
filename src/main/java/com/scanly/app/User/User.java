@@ -66,9 +66,10 @@ import java.util.concurrent.ExecutionException;
                 String[] list = recommendationsHash.values().toArray(new String[0]);
                 for(String item: list) {
                     for (Product shoppingItem : this.shoppingList.getShoppingItems()) {
+                        Product newProduct = new Product(item);
                         if (!shoppingItem.getName().equals(item)) {
-                            if (!this.ProductRecommendations.contains(shoppingItem)) {
-                                this.ProductRecommendations.add(new Product(item));
+                            if (!this.ProductRecommendations.contains(newProduct)) {
+                                this.ProductRecommendations.add(newProduct);
                             }else{
                                 continue;
                             }

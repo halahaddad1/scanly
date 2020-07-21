@@ -70,8 +70,8 @@ public class UsersController {
     }
 
     @GetMapping("/getShoppingRecommendations")
-    public JsonMessage<List> getRecommendationsList(@RequestParam User user) throws InterruptedException, ExecutionException{
-        return new JsonMessage<>(firebaseService.getRecommendationsList(user.getName()));
+    public JsonMessage<List> getRecommendationsList(@RequestParam String name) throws InterruptedException, ExecutionException{
+        return new JsonMessage<>(firebaseService.getRecommendationsList(name));
     }
 }
 

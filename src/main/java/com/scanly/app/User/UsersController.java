@@ -77,17 +77,17 @@ public class UsersController {
     }
 
     @PatchMapping("/updateUserRecommendationProduct")
-    public String patchRecommendationProduct(@RequestBody User user, Product product) throws ExecutionException, InterruptedException {
+    public String patchRecommendationProduct(@RequestBody String user, String product) throws ExecutionException, InterruptedException {
         return firebaseService.updateRecommendationProduct(user, product);
     }
 
     @PatchMapping("/addUserRecommendationProduct")
-    public String addRecommendationProduct(@RequestBody User user, Product product) throws ExecutionException, InterruptedException {
+    public String addRecommendationProduct(@RequestBody String user, String product) throws ExecutionException, InterruptedException {
         return firebaseService.addRecommendationProduct(user, product);
     }
 
     @PatchMapping("/deleteProductFromShoppingList")
-    public String deleteProductFromShoppingList(@RequestBody User user, ShoppingListProduct product) throws ExecutionException, InterruptedException {
+    public String deleteProductFromShoppingList(@RequestBody String user, String product) throws ExecutionException, InterruptedException {
         return firebaseService.deleteProductFromShoppingList(user, product);
     }
 

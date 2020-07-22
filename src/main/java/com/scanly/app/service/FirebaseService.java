@@ -328,20 +328,20 @@ public class FirebaseService {
 
     }
 
-    public String updateRecommendationProduct(User user, Product product) throws ExecutionException, InterruptedException {
+    public String updateRecommendationProduct(String user, String product) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        DocumentReference documentReference = dbFirestore.collection("users").document(user.getName());
+        DocumentReference documentReference = dbFirestore.collection("users").document(user);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
 
         DocumentSnapshot document = future.get();
 
         if (document.exists()) {
-            user = document.toObject(User.class);
-            List<Product> productList = user.getProductRecommendations();
+            User foundUser = document.toObject(User.class);
+            List<Product> productList = foundUser.getProductRecommendations();
             for (Product pItem : productList) {
-                if (pItem.equals(product)) {
+                if (pItem.getName().equals(product)) {
                     productList.remove(pItem);
-                    this.updateUserDetails(user);
+                    this.updateUserDetails(foundUser);
                     return pItem.getName() + " was successfully deleted";
                 }
             }
@@ -351,39 +351,39 @@ public class FirebaseService {
         return "could not find user";
     }
 
-    public String addRecommendationProduct(User user, Product product) throws ExecutionException, InterruptedException {
+    public String addRecommendationProduct(String user, String product) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        DocumentReference documentReference = dbFirestore.collection("users").document(user.getName());
+        DocumentReference documentReference = dbFirestore.collection("users").document(user);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
 
         DocumentSnapshot document = future.get();
 
         if (document.exists()) {
-            user = document.toObject(User.class);
-            ShoppingList shoppingList = user.getShoppingList();
-            shoppingList.addShoppingItemsFromRecommendations(product.getName());
-            this.updateUserDetails(user);
-            return product.getName() + " was successfully added to your shopping list!";
+            User foundUser = document.toObject(User.class);
+            ShoppingList shoppingList = foundUser.getShoppingList();
+            shoppingList.addShoppingItemsFromRecommendations(product);
+            this.updateUserDetails(foundUser);
+            return product + " was successfully added to your shopping list!";
         } else {
             return "could not add product!";
         }
     }
 
-    public String deleteProductFromShoppingList(User user, ShoppingListProduct product) throws ExecutionException, InterruptedException {
+    public String deleteProductFromShoppingList(String user, String product) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        DocumentReference documentReference = dbFirestore.collection("users").document(user.getName());
+        DocumentReference documentReference = dbFirestore.collection("users").document(user);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
 
         DocumentSnapshot document = future.get();
 
         if (document.exists()) {
-            user = document.toObject(User.class);
-            ShoppingList productList = user.getShoppingList();
+            User foundUser = document.toObject(User.class);
+            ShoppingList productList = foundUser.getShoppingList();
             for (ShoppingListProduct pItem : productList.getShoppingItems()) {
                 if (pItem.equals(product)) {
                     productList.setState(pItem,true);
-                    this.updateUserDetails(user);
-                    return pItem.getName() + " was successfully deleted";
+                    this.updateUserDetails(foundUser);
+                    return product + " was successfully deleted";
                 }
             }
         } else {

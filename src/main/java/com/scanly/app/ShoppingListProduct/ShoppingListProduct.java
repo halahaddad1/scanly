@@ -41,7 +41,11 @@ public class ShoppingListProduct {
     }
 
     public void updateDaysBetweenPurchases() {
-       this.daysBetweenPurchases = Math.abs(this.lastBought.getTime() - this.firstBought.getTime()) / (timesBought * MILLIS_IN_A_DAY);
+        if (timesBought == 0) {
+            this.daysBetweenPurchases = 7.0;
+        } else {
+           this.daysBetweenPurchases = Math.abs(this.lastBought.getTime() - this.firstBought.getTime()) / (timesBought * MILLIS_IN_A_DAY);
+        }
     }
 
     public boolean timeToBuy() {

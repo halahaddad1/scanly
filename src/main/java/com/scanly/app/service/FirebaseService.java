@@ -390,16 +390,18 @@ public class FirebaseService {
             User foundUser = document.toObject(User.class);
             ShoppingList productList = foundUser.getShoppingList();
             for (ShoppingListProduct pItem : productList.getShoppingItems()) {
-                if (pItem.equals(product)) {
-                    productList.setState(pItem,true);
+                if (pItem.getName().equals(product)) {
+                    productList.setState(pItem,false);
                     this.updateUserDetails(foundUser);
                     return product + " was successfully deleted";
+                } else {
+                    continue;
                 }
             }
         } else {
             return "could not find user";
         }
-        return "could not find user";
+        return "could not even try to find user";
     }
 }
 

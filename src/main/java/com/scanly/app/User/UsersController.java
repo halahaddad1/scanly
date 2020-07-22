@@ -1,7 +1,5 @@
 package com.scanly.app.User;
 
-import com.scanly.app.Product.Product;
-import com.scanly.app.ShoppingListProduct.ShoppingListProduct;
 import com.scanly.app.service.FirebaseService;
 import com.scanly.app.utilities.JsonMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,17 +75,17 @@ public class UsersController {
     }
 
     @PatchMapping("/updateUserRecommendationProduct")
-    public String patchRecommendationProduct(@RequestBody String user, String product) throws ExecutionException, InterruptedException {
+    public String patchRecommendationProduct(@RequestParam String user, String product) throws ExecutionException, InterruptedException {
         return firebaseService.updateRecommendationProduct(user, product);
     }
 
     @PatchMapping("/addUserRecommendationProduct")
-    public String addRecommendationProduct(@RequestBody String user, String product) throws ExecutionException, InterruptedException {
+    public String addRecommendationProduct(@RequestParam String user, String product) throws ExecutionException, InterruptedException {
         return firebaseService.addRecommendationProduct(user, product);
     }
 
     @PatchMapping("/deleteProductFromShoppingList")
-    public String deleteProductFromShoppingList(@RequestBody String user, String product) throws ExecutionException, InterruptedException {
+    public String deleteProductFromShoppingList(@RequestParam String user, String product) throws ExecutionException, InterruptedException {
         return firebaseService.deleteProductFromShoppingList(user, product);
     }
 

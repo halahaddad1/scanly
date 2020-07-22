@@ -85,10 +85,14 @@ public class FirebaseService {
 
         if (document.exists()) {
             user = document.toObject(User.class);
+            List<ShoppingListProduct> shoppingList = user.getShoppingList().getShoppingItems();
             // ShoppingListProduct item = user.getShoppingList().getShoppingItems();
-            // if (item.timeToBuy()) {
-            // item.setShowOnList(true);
-            // service.updateListDetails(shoppingList); -> this needs to be something else I think
+            for (ShoppingListProduct item : shoppingList ) {
+                if (item.timeToBuy()) {
+                    item.setShowOnList(true);
+                }
+            }
+            this.updateUserDetails(user);
             return user.getShoppingList().getShoppingItems();
         } else {
             return null;
@@ -283,7 +287,7 @@ public class FirebaseService {
     public ShoppingListProduct getShoppingListProductDetails(String name, String product) throws InterruptedException, ExecutionException {
         User user = this.getUserDetails(name);
         for (ShoppingListProduct productO : user.getShoppingList().getShoppingItems()) {
-            if (productO.getSuperName().equals(product)) {
+            if (productO.getName().equals(product)) {
                 return productO;
             } else {
                 continue;

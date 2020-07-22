@@ -22,7 +22,7 @@ public class ShoppingList {
     private List<ShoppingListProduct> shoppingItems = new ArrayList<ShoppingListProduct>();
 
     public ShoppingList(String name) {
-        this.name = name.substring(0, 1).toUpperCase() + name.substring(1)+ "'s Shopping List";
+        this.name = name.substring(0, 1).toUpperCase() + name.substring(1);
 //        this.shoppingItems = new ArrayList<Product>();
         this.shoppingItems = new ArrayList<ShoppingListProduct>();
     }

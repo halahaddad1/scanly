@@ -21,9 +21,7 @@ public class User {
 
     private String name;
     @Builder.Default
-    private ShoppingList shoppingList = new ShoppingList(capitalizeString(name) + "'s shopping list");
-
-
+    private ShoppingList shoppingList = new ShoppingList("shopping list");
     @Builder.Default
     private List<Receipt> receipts = new ArrayList<Receipt>();
     @Builder.Default
@@ -31,7 +29,7 @@ public class User {
 
     public User(String name) {
         this.name = name;
-        this.shoppingList = new ShoppingList(capitalizeString(name) + "'s shopping list");
+        this.shoppingList = new ShoppingList("shopping list");
         this.receipts = new ArrayList<Receipt>();
         this.ProductRecommendations = new ArrayList<Product>();
     }

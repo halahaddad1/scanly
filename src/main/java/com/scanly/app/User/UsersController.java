@@ -1,7 +1,5 @@
 package com.scanly.app.User;
 
-import com.scanly.app.Product.Product;
-import com.scanly.app.ShoppingListProduct.ShoppingListProduct;
 import com.scanly.app.service.FirebaseService;
 import com.scanly.app.utilities.JsonMessage;
 import org.springframework.beans.factory.annotation.Autowired;

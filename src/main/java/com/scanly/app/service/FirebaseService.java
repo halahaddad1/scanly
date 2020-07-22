@@ -350,5 +350,46 @@ public class FirebaseService {
         }
         return "could not find user";
     }
+
+    public String addRecommendationProduct(User user, Product product) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = dbFirestore.collection("users").document(user.getName());
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+
+        DocumentSnapshot document = future.get();
+
+        if (document.exists()) {
+            user = document.toObject(User.class);
+            ShoppingList shoppingList = user.getShoppingList();
+            shoppingList.addShoppingItemsFromRecommendations(product.getName());
+            this.updateUserDetails(user);
+            return product.getName() + " was successfully added to your shopping list!";
+        } else {
+            return "could not add product!";
+        }
+    }
+
+    public String deleteProductFromShoppingList(User user, ShoppingListProduct product) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = dbFirestore.collection("users").document(user.getName());
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+
+        DocumentSnapshot document = future.get();
+
+        if (document.exists()) {
+            user = document.toObject(User.class);
+            ShoppingList productList = user.getShoppingList();
+            for (ShoppingListProduct pItem : productList.getShoppingItems()) {
+                if (pItem.equals(product)) {
+                    productList.setState(pItem,true);
+                    this.updateUserDetails(user);
+                    return pItem.getName() + " was successfully deleted";
+                }
+            }
+        } else {
+            return "could not find user";
+        }
+        return "could not find user";
+    }
 }
 

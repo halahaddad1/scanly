@@ -1,5 +1,6 @@
 package com.scanly.app.User;
 
+import com.scanly.app.Product.Product;
 import com.scanly.app.service.FirebaseService;
 import com.scanly.app.utilities.JsonMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,9 +75,9 @@ public class UsersController {
         return new JsonMessage<>(firebaseService.getRecommendationsList(name));
     }
 
-    @PostMapping("/deleteUserRecommendationProduct")
-    public String deleteRecommendationProduct(@RequestBody User user){
-        return firebaseService.deleteRecommendationProduct(user);
+    @PatchMapping("/updateUserRecommendationProduct")
+    public String patchRecommendationProduct(@RequestBody User user, Product product) throws ExecutionException, InterruptedException {
+        return firebaseService.updateRecommendationProduct(user, product);
     }
 }
 

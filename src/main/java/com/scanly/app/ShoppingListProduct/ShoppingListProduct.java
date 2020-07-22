@@ -39,12 +39,11 @@ public class ShoppingListProduct {
         Date today = new Date();
 
         long daysFromBought = today.getTime() - this.lastBought.getTime() / MILLIS_IN_A_DAY;
-        if ( daysFromBought >= this.daysBetweenPurchases - PURCHASE_ADVANCE_NOTICE ) {
+        if ( daysFromBought >= (this.daysBetweenPurchases - PURCHASE_ADVANCE_NOTICE) ) {
             return true;
         } else {
             return false;
         }
-
     }
 
 }

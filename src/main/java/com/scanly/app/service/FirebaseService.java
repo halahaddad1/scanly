@@ -87,7 +87,7 @@ public class FirebaseService {
             user = document.toObject(User.class);
             List<ShoppingListProduct> shoppingList = user.getShoppingList().getShoppingItems();
             // ShoppingListProduct item = user.getShoppingList().getShoppingItems();
-            for (ShoppingListProduct item : shoppingList ) {
+            for (ShoppingListProduct item : shoppingList) {
                 if (item.timeToBuy()) {
                     item.setShowOnList(true);
                 }
@@ -304,36 +304,51 @@ public class FirebaseService {
 
             DocumentSnapshot document = future.get();
             if (document.exists()) {
-                User user= this.getUserDetails(name);
+                User user = this.getUserDetails(name);
                 user.setProductRecommendations();
                 this.saveUserDetails(user);
                 return user.getProductRecommendations();
             } else {
-            User newUser= new User(name);
+                User newUser = new User(name);
                 newUser.toBuilder()
-                            .name(newUser.getName())
-                            .receipts(newUser.getReceipts())
-                            .shoppingList(newUser.getShoppingList())
-                            .ProductRecommendations(newUser.getProductRecommendations())
-                            .build();
-                            this.saveUserDetails(newUser);
-                User user= this.getUserDetails(name);
+                        .name(newUser.getName())
+                        .receipts(newUser.getReceipts())
+                        .shoppingList(newUser.getShoppingList())
+                        .ProductRecommendations(newUser.getProductRecommendations())
+                        .build();
+                this.saveUserDetails(newUser);
+                User user = this.getUserDetails(name);
                 user.setProductRecommendations();
                 this.saveUserDetails(user);
                 return user.getProductRecommendations();
             }
-        } catch (ExecutionException e){
+        } catch (ExecutionException e) {
             return null;
         }
 
     }
 
-    public String deleteRecommendationProduct(User user,Product product) {
-
+    public String updateRecommendationProduct(User user, Product product) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> writeResult = dbFirestore.collection("users").document(user).delete();
-        return "Document with ID " + name + " has been deleted";
+        DocumentReference documentReference = dbFirestore.collection("users").document(user.getName());
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
 
+        DocumentSnapshot document = future.get();
+
+        if (document.exists()) {
+            user = document.toObject(User.class);
+            List<Product> productList = user.getProductRecommendations();
+            for (Product pItem : productList) {
+                if (pItem.equals(product)) {
+                    productList.remove(pItem);
+                    this.updateUserDetails(user);
+                    return pItem.getName() + " was successfully deleted";
+                }
+            }
+        } else {
+            return "could not find user";
+        }
+        return "could not find user";
     }
 }
 

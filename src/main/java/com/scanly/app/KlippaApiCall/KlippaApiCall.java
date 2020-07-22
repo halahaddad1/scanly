@@ -231,7 +231,7 @@ public class KlippaApiCall {
                     pastProduct.setLastBought(receiptDate);
                     pastProduct.setTimesBought(pastProduct.getTimesBought() + 1);
                     pastProduct.setShowOnList(false);
-                    pastProduct.updateDaysBetweenPurchaces();
+                    pastProduct.updateDaysBetweenPurchases();
                 } else {
                     ShoppingListProduct listProduct = new ShoppingListProduct(canonicalName, receiptDate);
                     shoppingList.addShoppingItems(listProduct);

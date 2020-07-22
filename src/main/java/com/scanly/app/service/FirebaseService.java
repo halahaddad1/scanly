@@ -394,8 +394,6 @@ public class FirebaseService {
                     productList.setState(pItem,false);
                     this.updateUserDetails(foundUser);
                     return product + " was successfully deleted";
-                } else {
-                    continue;
                 }
             }
         } else {

@@ -95,7 +95,7 @@ public class KlippaApiCall {
     }
 
 
-    public void klippaMultiPartPostRequest(byte[] arr, User user, String KLIPPA_AUTH) throws IOException, ExecutionException, InterruptedException, ParseException {
+    public Receipt klippaMultiPartPostRequest(byte[] arr, User user, String KLIPPA_AUTH) throws IOException, ExecutionException, InterruptedException, ParseException {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -174,6 +174,8 @@ public class KlippaApiCall {
 
 
 
+
+
 //        Stream.of(products).map(product -> Product.builder()
 //                                                  .name(product.path("title").asText())
 //                                                  .build())
@@ -201,7 +203,7 @@ public class KlippaApiCall {
 //                        e.printStackTrace();
 //                    }
 //                });
-        ShoppingList shoppingList = user.getShoppingList(user.getName());
+        ShoppingList shoppingList= user.getShoppingList(user.getName());
         var listItems = shoppingList.getShoppingItems();
 
 //        Stream.of(products).map(Product::toBuilder)
@@ -256,6 +258,6 @@ public class KlippaApiCall {
             String prettyStringTitle = title.toPrettyString();
             System.out.println("this is the item: " + prettyStringTitle);
         }
-
+        return userReceipt;
     }
 }

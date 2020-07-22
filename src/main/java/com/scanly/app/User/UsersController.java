@@ -73,5 +73,10 @@ public class UsersController {
     public JsonMessage<List> getRecommendationsList(@RequestParam String name) throws InterruptedException, ExecutionException{
         return new JsonMessage<>(firebaseService.getRecommendationsList(name));
     }
+
+    @PostMapping("/deleteUserRecommendationProduct")
+    public String deleteRecommendationProduct(@RequestBody User user){
+        return firebaseService.deleteRecommendationProduct(user);
+    }
 }
 

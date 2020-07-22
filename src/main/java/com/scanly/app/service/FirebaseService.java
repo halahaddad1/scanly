@@ -323,5 +323,13 @@ public class FirebaseService {
         }
 
     }
+
+    public String deleteRecommendationProduct(User user,Product product) {
+
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> writeResult = dbFirestore.collection("users").document(user).delete();
+        return "Document with ID " + name + " has been deleted";
+
+    }
 }
 

@@ -31,6 +31,15 @@ public class ShoppingListProduct {
         this.lastBought = lastBought;
     }
 
+    public ShoppingListProduct(String name) {
+        this.name = name;
+        this.daysBetweenPurchases = 7.0;
+        this.showOnList = true;
+        this.timesBought = 0;
+        this.firstBought = new Date();
+        this.lastBought = new Date();
+    }
+
     public void updateDaysBetweenPurchases() {
        this.daysBetweenPurchases = Math.abs(this.lastBought.getTime() - this.firstBought.getTime()) / (timesBought * MILLIS_IN_A_DAY);
     }

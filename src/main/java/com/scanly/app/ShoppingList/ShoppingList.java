@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -35,8 +34,7 @@ public class ShoppingList {
     }
 
     public void addShoppingItemsFromRecommendations(String name) {
-        Date today = new Date();
-        ShoppingListProduct product = new ShoppingListProduct(name,7,true,0,today,today);
+        ShoppingListProduct product = new ShoppingListProduct(name);
         this.shoppingItems.add(product);
     }
 

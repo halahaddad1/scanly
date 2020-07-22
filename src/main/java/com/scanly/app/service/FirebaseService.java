@@ -343,6 +343,8 @@ public class FirebaseService {
                     productList.remove(pItem);
                     this.updateUserDetails(foundUser);
                     return pItem.getName() + " was successfully deleted";
+                } else {
+                    continue;
                 }
             }
         } else {
@@ -362,6 +364,14 @@ public class FirebaseService {
             User foundUser = document.toObject(User.class);
             ShoppingList shoppingList = foundUser.getShoppingList();
             shoppingList.addShoppingItemsFromRecommendations(product);
+            List<Product> productList = foundUser.getProductRecommendations();
+            for (Product pItem : productList) {
+                if (pItem.getName().equals(product)) {
+                    productList.remove(pItem);
+                } else {
+                    continue;
+                }
+            }
             this.updateUserDetails(foundUser);
             return product + " was successfully added to your shopping list!";
         } else {

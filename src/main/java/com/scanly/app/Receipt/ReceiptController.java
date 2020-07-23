@@ -28,7 +28,7 @@ public class ReceiptController {
 
 
     @PostMapping("/ocrImage")
-    public List<String> klippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
+    public String klippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
         KlippaApiCall klippa = new KlippaApiCall();
         FirebaseService service = new FirebaseService();
         User user;
@@ -38,7 +38,7 @@ public class ReceiptController {
             user = service.getUserDetails(name);
         }
 
-        List<String> receiptItems = klippa.klippaMultiPartPostRequest(file.getBytes(), user, KLIPPA_AUTH);
+        String receiptItems = klippa.klippaMultiPartPostRequest(file.getBytes(), user, KLIPPA_AUTH);
 //            return the status code to flutter
         return receiptItems;
     }

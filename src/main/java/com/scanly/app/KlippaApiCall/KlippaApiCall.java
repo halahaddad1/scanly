@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.scanly.app.CanonicalProducts.CanonicalProduct;
 import com.scanly.app.Product.Product;
 import com.scanly.app.Receipt.Receipt;
@@ -92,7 +93,7 @@ public class KlippaApiCall {
     }
 
 
-    public List<String> klippaMultiPartPostRequest(byte[] arr, User user, String KLIPPA_AUTH) throws IOException, ExecutionException, InterruptedException, ParseException {
+    public String klippaMultiPartPostRequest(byte[] arr, User user, String KLIPPA_AUTH) throws IOException, ExecutionException, InterruptedException, ParseException {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -262,6 +263,8 @@ public class KlippaApiCall {
             list.add(item.getName());
         }
 
-        return list;
+        String json = new Gson().toJson(list);
+
+        return json;
     }
 }

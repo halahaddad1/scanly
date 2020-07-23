@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class FirebaseService {
@@ -330,11 +332,39 @@ public class FirebaseService {
 
     public String updateRecommendationProduct(String user, String product) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
+//        Iterable<DocumentReference> documentReferences = dbFirestore.collection("users").document(user).collection("productRecommendations").listDocuments();
+//        Query query = dbFirestore.collection("users")
+//                .document(user)
+//                .collection("productRecommendations")
+//                .whereEqualTo("name", product);
+//
+//        CollectionReference userCollection = dbFirestore.collection("users");
+//        ApiFuture<QuerySnapshot> querySnapshotApiFuture = query.get();
+//        return querySnapshotApiFuture.toString() ;
+
+        // TODO: kat's suggestions
+        // get user and make Java user
+        // get product Recommandation list for java user
+        // save original product recommandation to a new variable
+        // remove the product from the recommendation list
+        // query with two where clauses, for user name and productRecommendations that equals the original map, set with new array
+        //
+
+
+//        ApiFuture<WriteResult> writeResult = dbFirestore.collection("users").document(user).collection("productRecommendations").document().delete();
+
+//        dbFirestore.collection("users").whereEqualTo("name", user).whereEqualTo("productRecommendations", oldProductList)).set(user.getProductRecommendations());
+//        QuerySnapshot productName = collection.whereArrayContains("name", product).get().get();
+//        System.out.println(productName);
+
+//        WriteResult writeResult1 = writeResult.get();
+
+//        return writeResult.get().toString();
         DocumentReference documentReference = dbFirestore.collection("users").document(user);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
-
+//
         DocumentSnapshot document = future.get();
-
+//
         if (document.exists()) {
             User foundUser = document.toObject(User.class);
             List<Product> productList = foundUser.getProductRecommendations();
@@ -366,40 +396,47 @@ public class FirebaseService {
             shoppingList.addShoppingItemsFromRecommendations(product);
             List<Product> productList = foundUser.getProductRecommendations();
             for (Product pItem : productList) {
-                if (pItem.getName().equals(product)) {
+                if (product.equals(pItem.getName()) && productList.size() > 1) {
                     productList.remove(pItem);
-                } else {
-                    continue;
-                }
-            }
-            this.updateUserDetails(foundUser);
-            return product + " was successfully added to your shopping list!";
-        } else {
-            return "could not add product!";
-        }
-    }
-
-    public String deleteProductFromShoppingList(String user, String product) throws ExecutionException, InterruptedException {
-        Firestore dbFirestore = FirestoreClient.getFirestore();
-        DocumentReference documentReference = dbFirestore.collection("users").document(user);
-        ApiFuture<DocumentSnapshot> future = documentReference.get();
-
-        DocumentSnapshot document = future.get();
-
-        if (document.exists()) {
-            User foundUser = document.toObject(User.class);
-            ShoppingList productList = foundUser.getShoppingList();
-            for (ShoppingListProduct pItem : productList.getShoppingItems()) {
-                if (pItem.getName().equals(product)) {
-                    productList.setState(pItem,false);
                     this.updateUserDetails(foundUser);
-                    return product + " was successfully deleted";
+                    return product + " was successfully deleted and added to shopping list";
+                } else if (product.equals(pItem.getName()) && productList.size() < 2) {
+                    foundUser.setProductRecommendationsToEmpty(new ArrayList<Product>());
+                    this.updateUserDetails(foundUser);
+                    return product + " was not found and whole list was deleted";
+                } else {
+                    return "could not find " + product + "in your recommendation list";
                 }
             }
-        } else {
-            return "could not find user";
+            }
+        return "could not add product!";
+
         }
-        return "could not even try to find user";
+
+
+        public String deleteProductFromShoppingList (String user, String product) throws
+        ExecutionException, InterruptedException {
+            Firestore dbFirestore = FirestoreClient.getFirestore();
+            DocumentReference documentReference = dbFirestore.collection("users").document(user);
+            ApiFuture<DocumentSnapshot> future = documentReference.get();
+
+            DocumentSnapshot document = future.get();
+
+            if (document.exists()) {
+                User foundUser = document.toObject(User.class);
+                ShoppingList productList = foundUser.getShoppingList();
+                for (ShoppingListProduct pItem : productList.getShoppingItems()) {
+                    if (pItem.getName().equals(product)) {
+                        productList.setState(pItem, false);
+                        this.updateUserDetails(foundUser);
+                        return product + " was successfully deleted";
+                    }
+                }
+            } else {
+                return "could not find user";
+            }
+            return "could not even try to find user";
+        }
     }
-}
+
 

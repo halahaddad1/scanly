@@ -82,6 +82,10 @@ public class User {
         }
     }
 
+    public List<Product> setProductRecommendationsToEmpty(List list){
+        return this.ProductRecommendations = list;
+    }
+
     public List<Product> getProductRecommendations() {
         return this.ProductRecommendations;
     }

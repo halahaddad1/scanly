@@ -43,6 +43,7 @@ public class UsersController {
         }
     }
 
+
 ////    @PostMapping("/createNewUser")
 //    public String createNewUser(@RequestBody String userName) throws InterruptedException, ExecutionException {
 //       User createUser = new User(userName);
@@ -87,6 +88,11 @@ public class UsersController {
     @PatchMapping("/deleteProductFromShoppingList")
     public String deleteProductFromShoppingList(@RequestParam String user, String product) throws ExecutionException, InterruptedException {
         return firebaseService.deleteProductFromShoppingList(user, product);
+    }
+
+    @PostMapping("/createShoppingListProduct")
+    public String createProduct(@RequestParam String user, String product) throws InterruptedException, ExecutionException {
+        return firebaseService.createShoppingListProduct(user, product);
     }
 
 }

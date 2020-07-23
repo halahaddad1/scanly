@@ -38,6 +38,11 @@ public class ShoppingList {
         this.shoppingItems.add(product);
     }
 
+    public void addShoppingItems(String name) {
+        ShoppingListProduct product = new ShoppingListProduct(name);
+        this.shoppingItems.add(product);
+    }
+
     public void setState(ShoppingListProduct product, Boolean bool){
         for (ShoppingListProduct listProduct: this.shoppingItems){
             if (listProduct.getName().equals(product.getName())){

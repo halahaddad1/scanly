@@ -4,18 +4,16 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.scanly.app.CanonicalProducts.CanonicalProduct;
-import com.scanly.app.ShoppingListProduct.ShoppingListProduct;
-import com.scanly.app.ShoppingList.ShoppingList;
 import com.scanly.app.Product.Product;
 import com.scanly.app.Receipt.Receipt;
+import com.scanly.app.ShoppingList.ShoppingList;
+import com.scanly.app.ShoppingListProduct.ShoppingListProduct;
 import com.scanly.app.User.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class FirebaseService {
@@ -437,6 +435,26 @@ public class FirebaseService {
             }
             return "could not even try to find user";
         }
+
+
+    public String createShoppingListProduct(String user, String product) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference = dbFirestore.collection("users").document(user);
+        ApiFuture<DocumentSnapshot> future = documentReference.get();
+
+        DocumentSnapshot document = future.get();
+
+        if (document.exists()) {
+            User foundUser = document.toObject(User.class);
+            ShoppingList shoppingList = foundUser.getShoppingList();
+            shoppingList.addShoppingItems(product);
+            return product + " was successfully added to shopping list";
+        }
+        return "could not add product!";
+
     }
+
+
+}
 
 

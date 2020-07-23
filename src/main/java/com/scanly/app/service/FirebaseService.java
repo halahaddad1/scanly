@@ -400,15 +400,15 @@ public class FirebaseService {
                     productList.remove(pItem);
                     this.updateUserDetails(foundUser);
                     return product + " was successfully deleted and added to shopping list";
-                } else if (product.equals(pItem.getName()) && productList.size() < 2) {
+                } else if (product.equals(pItem.getName()) && productList.size() == 1) {
                     foundUser.setProductRecommendationsToEmpty(new ArrayList<Product>());
                     this.updateUserDetails(foundUser);
-                    return product + " was not found and whole list was deleted";
+                    return product + " was found alone in the list and whole list was deleted";
                 } else {
-                    return "could not find " + product + "in your recommendation list";
+                    return "could not find " + product + " in your recommendation list";
                 }
             }
-            }
+        }
         return "could not add product!";
 
         }

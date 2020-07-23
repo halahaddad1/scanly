@@ -93,7 +93,7 @@ public class KlippaApiCall {
     }
 
 
-    public List<Product> klippaMultiPartPostRequest(byte[] arr, User user, String KLIPPA_AUTH) throws IOException, ExecutionException, InterruptedException, ParseException {
+    public Receipt klippaMultiPartPostRequest(byte[] arr, User user, String KLIPPA_AUTH) throws IOException, ExecutionException, InterruptedException, ParseException {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -263,9 +263,11 @@ public class KlippaApiCall {
             list.add(item);
         }
 
+        userReceipt.setProducts(list);
+
 
 //        String json = new Gson().toJson(list);
 
-        return list;
+        return userReceipt;
     }
 }

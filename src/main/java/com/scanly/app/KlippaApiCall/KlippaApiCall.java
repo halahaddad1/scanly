@@ -21,10 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 //import com.google.api.client.util.Value;
@@ -95,7 +92,7 @@ public class KlippaApiCall {
     }
 
 
-    public Receipt klippaMultiPartPostRequest(byte[] arr, User user, String KLIPPA_AUTH) throws IOException, ExecutionException, InterruptedException, ParseException {
+    public List<String> klippaMultiPartPostRequest(byte[] arr, User user, String KLIPPA_AUTH) throws IOException, ExecutionException, InterruptedException, ParseException {
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -258,6 +255,13 @@ public class KlippaApiCall {
             String prettyStringTitle = title.toPrettyString();
             System.out.println("this is the item: " + prettyStringTitle);
         }
-        return userReceipt;
+        List<Product> toUniqueReceipt = userReceipt.getProducts();
+        HashSet<Product> receiptSet = new HashSet(toUniqueReceipt);
+        List<String> list = new ArrayList<String>();
+        for(Product item : receiptSet) {
+            list.add(item.getName());
+        }
+
+        return list;
     }
 }

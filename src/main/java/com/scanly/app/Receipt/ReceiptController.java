@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
@@ -27,7 +28,7 @@ public class ReceiptController {
 
 
     @PostMapping("/ocrImage")
-    public Receipt klippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
+    public List<String> klippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
         KlippaApiCall klippa = new KlippaApiCall();
         FirebaseService service = new FirebaseService();
         User user;
@@ -37,9 +38,9 @@ public class ReceiptController {
             user = service.getUserDetails(name);
         }
 
-        Receipt receipt = klippa.klippaMultiPartPostRequest(file.getBytes(), user, KLIPPA_AUTH);
+        List<String> receiptItems = klippa.klippaMultiPartPostRequest(file.getBytes(), user, KLIPPA_AUTH);
 //            return the status code to flutter
-        return receipt;
+        return receiptItems;
     }
 
 //    @PutMapping("/ocrImage")

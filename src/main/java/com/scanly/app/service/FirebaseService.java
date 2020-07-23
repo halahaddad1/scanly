@@ -448,6 +448,7 @@ public class FirebaseService {
             User foundUser = document.toObject(User.class);
             ShoppingList shoppingList = foundUser.getShoppingList();
             shoppingList.addShoppingItems(product);
+            this.updateUserDetails(foundUser);
             return product + " was successfully added to shopping list";
         }
         return "could not add product!";

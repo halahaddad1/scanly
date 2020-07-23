@@ -1,6 +1,7 @@
 package com.scanly.app.Receipt;
 
 import com.scanly.app.KlippaApiCall.KlippaApiCall;
+import com.scanly.app.Product.Product;
 import com.scanly.app.User.User;
 import com.scanly.app.service.FirebaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class ReceiptController {
 
 
     @PostMapping("/ocrImage")
-    public String klippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
+    public List<Product> klippaImage(@RequestParam("file") MultipartFile file, String name ) throws IOException, ExecutionException, InterruptedException, ParseException {
         KlippaApiCall klippa = new KlippaApiCall();
         FirebaseService service = new FirebaseService();
         User user;
@@ -38,7 +39,7 @@ public class ReceiptController {
             user = service.getUserDetails(name);
         }
 
-        String receiptItems = klippa.klippaMultiPartPostRequest(file.getBytes(), user, KLIPPA_AUTH);
+        List<Product> receiptItems = klippa.klippaMultiPartPostRequest(file.getBytes(), user, KLIPPA_AUTH);
 //            return the status code to flutter
         return receiptItems;
     }

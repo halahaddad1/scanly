@@ -18,7 +18,7 @@ public class implementSimpleSimilarityAlgorithm {
             FirebaseService firebaseService = new FirebaseService();
             List<String> productNames = new ArrayList<String>();
 
-            String[] userNames = new String[]{"cool Ross", "fake Ross", "sleepy faezeh", "who"};
+            String[] userNames = new String[]{"cool Ross", "fake Ross", "sleepy faezeh", "who","one","two","three"};
             for (int i = 0; i < userNames.length; i++) {
                 System.out.print(userNames[i]);
                 List<ShoppingListProduct> shoppingListItems = firebaseService.getUserDetails(userNames[i]).getShoppingList().getShoppingItems();

@@ -74,8 +74,8 @@ Installation of Flutter for Mac OS:
 - follow all these steps on this [link](https://flutter.dev/docs/get-started/editor?tab=androidstudio) to setup the required plugins on your IntelliJ IDE.
 
 Installation of Backend Server:
-- [Deployed API] (https://scanly-ada.herokuapp.com/)
+- [Deployed API](https://scanly-ada.herokuapp.com/).
 - To run the Restful Server off of your machine follow these steps:
-* Watch this [video]. (https://www.youtube.com/watch?v=S_GLO5la_nI)
-* Clone this [repo]. (https://github.com/halahaddad1/scanly.git)
+* Watch this [video](https://www.youtube.com/watch?v=S_GLO5la_nI).
+* Clone this [repo](https://github.com/halahaddad1/scanly.git).
 * Run the AppApplication file.

@@ -76,6 +76,6 @@ Installation of Flutter for Mac OS:
 Installation of Backend Server:
 - [Deployed API] (https://scanly-ada.herokuapp.com/)
 - To run the Restful Server off of your machine follow these steps:
-1- Watch this [video]. (https://www.youtube.com/watch?v=S_GLO5la_nI)
-2- Clone this [repo]. (https://github.com/halahaddad1/scanly.git)
-3- Run the AppApplication file.
+* Watch this [video]. (https://www.youtube.com/watch?v=S_GLO5la_nI)
+* Clone this [repo]. (https://github.com/halahaddad1/scanly.git)
+* Run the AppApplication file.

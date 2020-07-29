@@ -20,8 +20,8 @@
 
 ## Capstone Presentation Video
 
-![Presentation](https://youtu.be/cbPPmXdEkhM)
-![Video Presentation](https://img.youtube.com/vi/cbPPmXdEkhM/maxresdefault.jpg).
+[Presentation](https://youtu.be/cbPPmXdEkhM)
+[Video Presentation](https://img.youtube.com/vi/cbPPmXdEkhM/maxresdefault.jpg).
 
 ## Statement
 

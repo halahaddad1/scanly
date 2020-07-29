@@ -1,4 +1,4 @@
-# Scanly (Back End)
+# Scanly (BackEnd)
 
 For Frontend repo click [here](https://github.com/faezeh-ashtiani/scanly-flutter)!
 

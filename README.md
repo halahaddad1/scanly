@@ -1,4 +1,4 @@
-# Scanly (front end)
+# Scanly (Back End)
 
 ## Table of Contents
 

@@ -62,13 +62,17 @@ public class FirebaseService {
         ApiFuture<QuerySnapshot> future = dbFirestore.collection("users").get();
 // future.get() blocks on response
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-//        for (QueryDocumentSnapshot document : documents) {
-//            System.out.println(document.getId() + " => " + document.toObject(User.class));
+        for (QueryDocumentSnapshot document : documents) {
+            System.out.println(document.getId()); //+ " => " + document.toObject(User.class));
 //            /* Specify the size of the list up front to prevent resizing. */
-//        }
+        }
+
         List<User> userList = new ArrayList<>(documents.size());
         for (QueryDocumentSnapshot document : documents) {
-            userList.add(document.toObject(User.class));
+            if (document.exists()) {
+//                user = document.toObject(User.class);
+                userList.add(document.toObject(User.class));
+            }
         }
         return userList;
     }

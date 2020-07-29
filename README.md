@@ -57,11 +57,11 @@ Link to the initial draft [wireframes](https://www.figma.com/file/HbPWcSwXNjvhAg
 
 ## Database Diagram
 
-![Diagram](./assets/images/database_diagram.jpeg)
+![Diagram](./scanly/src/main/resources/database_diagram.jpeg)
 
 ## Technologies
 
-![Technologies](./assets/images/Scanly_techstack.jpg)
+![Technologies](./scanly/src/main/resources/Scanly_techstack.jpg)
   
 ## Getting Started
 
